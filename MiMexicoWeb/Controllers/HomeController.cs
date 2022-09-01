@@ -2,6 +2,7 @@
 using MiMexicoWeb.Models;
 using System.Diagnostics;
 
+
 namespace MiMexicoWeb.Controllers
 {
     public class HomeController : Controller
@@ -33,6 +34,10 @@ namespace MiMexicoWeb.Controllers
             return View();
         }
 
+        public IActionResult Landing()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
