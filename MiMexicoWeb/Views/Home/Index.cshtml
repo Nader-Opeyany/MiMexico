@@ -1,9 +1,31 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@*This is the tab title*@
+@{
+    ViewData["Title"] = "Home";
 }
 
+@*Page content*@
 <div class="text-center">
-    <h1 class="display-4">Mi Mexico </h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <p> This should acutally be the landing page</p>
+
+    @*Title container*@
+    <div class="jumbotron">
+        <h1 class="display-4">Mi Mexico </h1>
+        @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
+        @*<p> This should acutally be the landing page</p>*@
+        <p class="lead"> Authentic Mexican Food</p>
+    </div>
+    
+    @*Button Container*@
+    <div class="container">
+        <button type="button" class="btn btn-light">Menu</button>
+        <button type="button" class="btn btn-light">Order</button>
+    </div>
 </div>
+
+@*<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>@ViewBag.title</h2>
+            <p>This is bootstrap test Saiyed did this (Nader)</p>
+        </div>
+    </div>
+</div>*@

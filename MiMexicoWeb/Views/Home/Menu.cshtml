@@ -1,6 +1,88 @@
 ﻿@{
-    ViewData["Title"] = " ";
+    ViewData["Title"] = "Menu";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>This is where all the menu information will be placed.</p>
+@*The title section*@
+@*<div class="container">
+    <h1>@ViewData["Title"]</h1>
+</div>
+*@
+@*<p>This is where all the menu information will be placed.</p>*@
+
+@*Menu Section*@
+<div class="container">
+    @*Food Section*@
+    <div class="jumbotron">
+        <h3 class="display-4">Comida / Food</h3>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <h4>Tacos</h4>
+                <p>A soft corn tortilla with choice of meat, onion, and cilantro.</p>
+            </li>
+            <li class="list-group-item">
+                <h4>Torta</h4>
+                <p>Two slice of birote served with choice of meat, lettuce, onion,
+                    tomato, and sour cream inside</p>
+            </li>
+            <li class="list-group-item">
+                <h4>Burrito</h4>
+                <p>Choice of meat, rice, beans, lettuce, tomato, onion, guacamole,
+                    cheese, and sour cream wrapped in a flour tortilla</p>
+            </li>
+            <li class="list-group-item">
+                <h4>Quesadilla</h4>
+                <p>Grilled flour tortilla with a choice of meat and a cheesy filling.</p>
+            </li>
+            <li class="list-group-item">
+                <h4>Ceviche</h4>
+                <p>Fresh raw shrimp, tomato, lemon, and onion.</p>
+            </li>
+            <li class="list-group-item">
+                <h4>Tostada de ceviche</h4>
+                <p>Hard Corn tortilla with ceviche.</p>
+            </li>
+        </ul>
+    </div>
+
+    @*Drinks section*@
+    <div class="jumbotron">
+        <h3 class="display-4">Bebida / Drink</h3>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <h4>Agua / Water</h4>
+                <p>Tap water.</p>
+            </li>
+            <li class="list-group-item">
+                <h4>Horchata</h4>
+                <p>Sweetened rice water.</p>
+            </li>
+            <li class="list-group-item">
+                <h4>Jamaica</h4>
+                <p>Cold hibiscus tea.</p>
+            </li>
+        </ul>
+    </div>
+
+    @*Choice of Meats section*@
+    <div class="jumbotron">
+        <h3 class="display-4">Choice of meats</h3>
+        <ul class="list-group list- group-flush">
+            <li class="list-group-item">Asada</li>
+            <li class="list-group-item">Alpastor</li>
+            <li class="list-group-item">Birria</li>
+            <li class="list-group-item">Cabeza</li>
+            <li class="list-group-item">Carnitas</li>
+            <li class="list-group-item">Pollo</li>
+            <li class="list-group-item">Lengua</li>
+            <li class="list-group-item">Chorizo</li>
+        </ul>
+    </div>
+</div>
+
+@*Footer Section*@
+<div class="container" style="background-color: rgb(131, 81, 81)">
+    <div class="row">
+        <h5 class="text-white">Location</h5>
+        <h5 class="text-white">Hours</h5>
+    </div>
+</div>
