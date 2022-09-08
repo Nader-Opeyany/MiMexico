@@ -16,8 +16,20 @@
     
     @*Button Container*@
     <div class="container">
-        <button type="button" class="btn btn-light">Menu</button>
-        <button type="button" class="btn btn-light">Order</button>
+
+        @using(Html.BeginForm("Menu", "Home")) { 
+        <input type="submit" class="btn btn-light" value="Menu" />
+             
+            @using(Html.BeginForm("Order", "Home")) { 
+            <input type="submit" class="btn btn-light" value="Order" />
+            
+            }
+
+                @using(Html.BeginForm("AboutUs", "Home")) { 
+                <input type="submit" class="btn btn-light" value="About Us" />
+                
+                }
+        }
     </div>
 </div>
 
