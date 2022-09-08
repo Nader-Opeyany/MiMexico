@@ -1,7 +1,46 @@
-﻿@{
-    ViewData["Title"] = " ";
+﻿@*This is the tab title*@
+@{
+    ViewData["Title"] = "Home";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>This is the landing page</p>
-<p>This is a test by Saiyed(Nader)</p>
+@*Page content*@
+<div class="text-center">
+
+    @*Title container*@
+    <div class="jumbotron">
+        <h1 class="display-4">Mi Mexico </h1>
+        @*<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>*@
+        @*<p> This should acutally be the landing page</p>*@
+        <p class="lead"> Authentic Mexican Food</p>
+    </div>
+
+    @*Button Container*@
+    <div class="container">
+
+        @using (Html.BeginForm("Menu", "Home"))
+        {
+            <input type="submit" class="btn btn-light" value="Menu" />
+
+            @using (Html.BeginForm("Order", "Home"))
+            {
+                <input type="submit" class="btn btn-light" value="Order" />
+
+            }
+
+            @using (Html.BeginForm("AboutUs", "Home"))
+            {
+                <input type="submit" class="btn btn-light" value="About Us" />
+
+            }
+        }
+    </div>
+</div>
+
+@*<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>@ViewBag.title</h2>
+            <p>This is bootstrap test Saiyed did this (Nader)</p>
+        </div>
+    </div>
+</div>*@
