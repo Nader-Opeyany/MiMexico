@@ -16,3 +16,11 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+body {
+    background-image: url("../../images/Quseobirra Tacos.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size:cover;
+}
+
