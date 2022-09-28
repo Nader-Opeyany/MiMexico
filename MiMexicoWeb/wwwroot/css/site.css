@@ -24,3 +24,7 @@ body {
     background-size:cover;
 }
 
+footer {
+    height: 100px;
+    font-family: 'Open Sans', sans-serif;
+}
