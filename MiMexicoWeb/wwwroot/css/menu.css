@@ -1,11 +1,7 @@
 ﻿body {
 }
 
-#menuImg {
-    background-image: url("../../images/Asada.jpg");
-}
-
-img {
+#itemImg {
     width: 100%;
     height: 100%;
     object-fit: contain;
