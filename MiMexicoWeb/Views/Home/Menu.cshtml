@@ -8,256 +8,218 @@
 </div>
 *@
 @*<p>This is where all the menu information will be placed.</p>*@
-
+<head>
+    <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true" />
+</head>
 @*Alternate Menu Section*@
-<div class="container py-5">
-    @*Food Section*@
-    <div class="jumbotron">
-        <h3 class="display-4 text-white">Comida / Food</h3>
-        <div class="row">
-            <div class="col-md bg-white border-end border-bottom">
-                <ul class="list-group list-group-flush py-5">
-            <li class="list-group-item">
-                <h4>Tacos</h4>
-                <p>A soft corn tortilla with choice of meat, onion, and cilantro.</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Torta</h4>
-                <p>Two slice of birote served with choice of meat, lettuce, onion,
-                    tomato, and sour cream inside</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Burrito</h4>
-                <p>Choice of meat, rice, beans, lettuce, tomato, onion, guacamole,
-                    cheese, and sour cream wrapped in a flour tortilla</p>
-                    </li>
-                </ul>
+<body>
+    <div class="container py-5">
+        @*Food Section*@
+        <div class="jumbotron">
+            <h3 class="display-4 text-white">Comida / Food</h3>
+            <div class="row">
+                <div class="col-md bg-white border-end border-bottom">
+                    <ul class="list-group list-group-flush py-5">
+                <li class="list-group-item">
+                    <h4>Tacos</h4>
+                    <p>A soft corn tortilla with choice of meat, onion, and cilantro.</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Torta</h4>
+                    <p>Two slice of birote served with choice of meat, lettuce, onion,
+                        tomato, and sour cream inside</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Burrito</h4>
+                    <p>Choice of meat, rice, beans, lettuce, tomato, onion, guacamole,
+                        cheese, and sour cream wrapped in a flour tortilla</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md bg-white border-bottom">
+                    <img  id="itemImg" src="~/images/Asada.jpg">
+                </div>
             </div>
-            <div class="col-md bg-white border-bottom">
-                Insert
-                Image
-                Here
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md bg-white border-end border-top">
-                Insert
-                Image
-                Here
-            </div>
-            <div class="col-md bg-white border-top">
-                <ul class="list-group list-group-flush py-5">
-            <li class="list-group-item">
-                <h4>Quesadilla</h4>
-                <p>Grilled flour tortilla with a choice of meat and a cheesy filling.</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Ceviche</h4>
-                <p>Fresh raw shrimp, tomato, lemon, and onion.</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Tostada de ceviche</h4>
-                <p>Hard Corn tortilla with ceviche.</p>
-                    </li>
-                </ul>
+            <div class="row">
+                <div class="col-md bg-white border-end border-top">
+                    <img id="itemImg" src="~/images/Asada.jpg">
+                </div>
+                <div class="col-md bg-white border-top">
+                    <ul class="list-group list-group-flush py-5">
+                <li class="list-group-item">
+                    <h4>Quesadilla</h4>
+                    <p>Grilled flour tortilla with a choice of meat and a cheesy filling.</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Ceviche</h4>
+                    <p>Fresh raw shrimp, tomato, lemon, and onion.</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Tostada de ceviche</h4>
+                    <p>Hard Corn tortilla with ceviche.</p>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    @*Meats Section*@
-    <div class="jumbotron">
-    <h3 class="display-4 text-white">Choice of meats</h3>
-        <div class="row">
-            <div class="col-md bg-white border-end border-bottom">
-                <ul class="list-group list-group-flush py-5">
-                <li class="list-group-item">
-                    <h4>Asada</h4>
-                </li>
-                <li class="list-group-item">
-                    <h4>Alpastor</h4>
-                </li>
-                <li class="list-group-item">
-                    <h4>Birria</h4>
-                </li>
-                <li class="list-group-item">
-                    <h4>Cabeza</h4>
-                </li>
-                </ul>
-            </div>
-            <div class="col-md bg-white">
-                Insert Image Here
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md bg-white border-end">
-                Insert Image here
-            </div>
-            <div class="col-md bg-white border-top">
-                <ul class="list-group list-group-flush py-5">
-                <li class="list-group-item">
-                    <h4>Carnitas</h4>
-                </li>
-                <li class="list-group-item">
-                    <h4>Pollo</h4>
-                </li>
-                <li class="list-group-item">
-                    <h4>Lengua</h4>
-                </li>
-                <li class="list-group-item">
-                    <h4>Chorizo</h4>
-                </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    @*Drinks Section*@
-    <div class="jumbotron">
-    <h3 class="display-4 text-white">Bebida / Drink</h3>
-        <div class="row">
-            <div class="col-md bg-white border-end border-bottom">
-                <ul class="list-group list-group-flush py-5">
-                    <li class="list-group-item">
-                        <h4>Agua / Water</h4>
-                        <p>Tap water.</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md bg-white border-end border-bottom">
-                <ul class="list-group list-group-flush py-5">
-                    <li class="list-group-item">
-                        <h4>Horchata</h4>
-                        <p>Sweetened rice water.</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-md bg-white border-end border-bottom">
-                <ul class="list-group list-group-flush py-5">
-                    <li class="list-group-item">
-                        <h4>Jamaica</h4>
-                        <p>Cold hibiscus tea.</p>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md bg-white border-end">
-                Insert image here
-            </div>
-            <div class="col-md bg-white border-end">
-                Insert image here
-            </div>
-            <div class="col-md bg-white border-end">
-                Insert image here
-            </div>
-        </div>
-    </div>
-</div>
-
-@*Menu Section*@
-<div class="container py-5">
-    @*Food Section*@
-    <div class="jumbotron">
-        <h3 class="display-4 text-white">Comida / Food</h3>
-        <ul class="list-group list-group-flush py-5">
-            <li class="list-group-item">
-                <h4>Tacos</h4>
-                <p>A soft corn tortilla with choice of meat, onion, and cilantro.</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Torta</h4>
-                <p>Two slice of birote served with choice of meat, lettuce, onion,
-                    tomato, and sour cream inside</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Burrito</h4>
-                <p>Choice of meat, rice, beans, lettuce, tomato, onion, guacamole,
-                    cheese, and sour cream wrapped in a flour tortilla</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Quesadilla</h4>
-                <p>Grilled flour tortilla with a choice of meat and a cheesy filling.</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Ceviche</h4>
-                <p>Fresh raw shrimp, tomato, lemon, and onion.</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Tostada de ceviche</h4>
-                <p>Hard Corn tortilla with ceviche.</p>
-            </li>
-        </ul>
-    </div>
-
-    @*Drinks section*@
-    <div class="jumbotron">
-        <h3 class="display-4 text-white">Bebida / Drink</h3>
-        <ul class="list-group list-group-flush py-5">
-            <li class="list-group-item">
-                <h4>Agua / Water</h4>
-                <p>Tap water.</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Horchata</h4>
-                <p>Sweetened rice water.</p>
-            </li>
-            <li class="list-group-item">
-                <h4>Jamaica</h4>
-                <p>Cold hibiscus tea.</p>
-            </li>
-        </ul>
-    </div>
-
-    @*Choice of Meats section*@
-    <div class="jumbotron">
+        @*Meats Section*@
+        <div class="jumbotron">
         <h3 class="display-4 text-white">Choice of meats</h3>
-        <ul class="list-group list- group-flush py-5">
-            <li class="list-group-item">Asada</li>
-            <li class="list-group-item">Alpastor</li>
-            <li class="list-group-item">Birria</li>
-            <li class="list-group-item">Cabeza</li>
-            <li class="list-group-item">Carnitas</li>
-            <li class="list-group-item">Pollo</li>
-            <li class="list-group-item">Lengua</li>
-            <li class="list-group-item">Chorizo</li>
-        </ul>
-    </div>
-</div>
-
-@*Footer Section*@
-<div class="container-fluid" style="background-color: rgb(131, 81, 81)">
-    <div class="d-flex flex-row justify-content-around align-items-center">
-        @*Map Location container*@
-        <div class="p-5">
-            <h3 class="text-white">Location</h3>
-            <div>
-                <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfd4yuh-2cd0ce1b-0406-42f6-9eeb-e5556de3a21f.png/v1/fill/w_1118,h_715,q_70,strp/screenshot_www_google_com_2022_09_10_16_31_13_by_wizard_emeraldheart_dfd4yuh-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzY0IiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmQ0eXVoLTJjZDBjZTFiLTA0MDYtNDJmNi05ZWViLWU1NTU2ZGUzYTIxZi5wbmciLCJ3aWR0aCI6Ijw9MTE5NCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.0wZVwlV6G85MWRa-04js4qZB5q7vsxLY8GBiSEptajc"
-                     width="300"
-                >
-                <p class="text-white">
-                    <strong>Corner of Riego Road & Pleasant Grove</strong>
-                    <br>
-                    <strong>Elverta, CA 95626</strong>
-                </p>
+            <div class="row">
+                <div class="col-md bg-white border-end border-bottom">
+                    <ul class="list-group list-group-flush py-5">
+                    <li class="list-group-item">
+                        <h4>Asada</h4>
+                    </li>
+                    <li class="list-group-item">
+                        <h4>Alpastor</h4>
+                    </li>
+                    <li class="list-group-item">
+                        <h4>Birria</h4>
+                    </li>
+                    <li class="list-group-item">
+                        <h4>Cabeza</h4>
+                    </li>
+                    </ul>
+                </div>
+                <div class="col-md bg-white">
+                    <img id="itemImg" src="~/images/Asada.jpg">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md bg-white border-end">
+                    <img id="itemImg" src="~/images/Asada.jpg">
+                </div>
+                <div class="col-md bg-white border-top">
+                    <ul class="list-group list-group-flush py-5">
+                    <li class="list-group-item">
+                        <h4>Carnitas</h4>
+                    </li>
+                    <li class="list-group-item">
+                        <h4>Pollo</h4>
+                    </li>
+                    <li class="list-group-item">
+                        <h4>Lengua</h4>
+                    </li>
+                    <li class="list-group-item">
+                        <h4>Chorizo</h4>
+                    </li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        @*Buisness hours container*@
-        <div class="p-5">
-            <h3 class="text-white">Hours</h3>
-            <div class="text-white">
-                <p>
-                    <strong>Monday:</strong> <small>9:00 am - 5:00 pm</small>
-                    <br>
-                    <strong>Tuesday:</strong> <small>9:00 am - 5:00 pm</small>
-                    <br />
-                    <strong>Wednesday:</strong> <small>9:00 am - 5:00 pm</small>
-                    <br />
-                    <strong>Thursday:</strong> <small>9:00 am - 5:00 pm</small>
-                    <br />
-                    <strong>Friday:</strong> <small>9:00 am - 5:00 pm</small>
-                </p>
+        @*Drinks Section*@
+        <div class="jumbotron">
+        <h3 class="display-4 text-white">Bebida / Drink</h3>
+            <div class="row">
+                <div class="col-md bg-white border-end border-bottom">
+                    <ul class="list-group list-group-flush py-5">
+                        <li class="list-group-item">
+                            <h4>Agua / Water</h4>
+                            <p>Tap water.</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md bg-white border-end border-bottom">
+                    <ul class="list-group list-group-flush py-5">
+                        <li class="list-group-item">
+                            <h4>Horchata</h4>
+                            <p>Sweetened rice water.</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md bg-white border-end border-bottom">
+                    <ul class="list-group list-group-flush py-5">
+                        <li class="list-group-item">
+                            <h4>Jamaica</h4>
+                            <p>Cold hibiscus tea.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md bg-white border-end">
+                    Insert image here
+                </div>
+                <div class="col-md bg-white border-end">
+                    Insert image here
+                </div>
+                <div class="col-md bg-white border-end">
+                    Insert image here
+                </div>
             </div>
         </div>
     </div>
-</div>
+
+    @*Menu Section*@
+    <div class="container py-5">
+        @*Food Section*@
+        <div class="jumbotron">
+            <h3 class="display-4 text-white">Comida / Food</h3>
+            <ul class="list-group list-group-flush py-5">
+                <li class="list-group-item">
+                    <h4>Tacos</h4>
+                    <p>A soft corn tortilla with choice of meat, onion, and cilantro.</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Torta</h4>
+                    <p>Two slice of birote served with choice of meat, lettuce, onion,
+                        tomato, and sour cream inside</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Burrito</h4>
+                    <p>Choice of meat, rice, beans, lettuce, tomato, onion, guacamole,
+                        cheese, and sour cream wrapped in a flour tortilla</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Quesadilla</h4>
+                    <p>Grilled flour tortilla with a choice of meat and a cheesy filling.</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Ceviche</h4>
+                    <p>Fresh raw shrimp, tomato, lemon, and onion.</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Tostada de ceviche</h4>
+                    <p>Hard Corn tortilla with ceviche.</p>
+                </li>
+            </ul>
+        </div>
+
+        @*Drinks section*@
+        <div class="jumbotron">
+            <h3 class="display-4 text-white">Bebida / Drink</h3>
+            <ul class="list-group list-group-flush py-5">
+                <li class="list-group-item">
+                    <h4>Agua / Water</h4>
+                    <p>Tap water.</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Horchata</h4>
+                    <p>Sweetened rice water.</p>
+                </li>
+                <li class="list-group-item">
+                    <h4>Jamaica</h4>
+                    <p>Cold hibiscus tea.</p>
+                </li>
+            </ul>
+        </div>
+
+        @*Choice of Meats section*@
+        <div class="jumbotron">
+            <h3 class="display-4 text-white">Choice of meats</h3>
+            <ul class="list-group list- group-flush py-5">
+                <li class="list-group-item">Asada</li>
+                <li class="list-group-item">Alpastor</li>
+                <li class="list-group-item">Birria</li>
+                <li class="list-group-item">Cabeza</li>
+                <li class="list-group-item">Carnitas</li>
+                <li class="list-group-item">Pollo</li>
+                <li class="list-group-item">Lengua</li>
+                <li class="list-group-item">Chorizo</li>
+            </ul>
+        </div>
+    </div>
+</body>
