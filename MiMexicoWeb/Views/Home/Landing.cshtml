@@ -6,32 +6,32 @@
 
 @*Page content*@
 <div class="text-center py-5">
-
     @*Title container*@
-    <div class="jumbotron" >
+    <div id="menuLogo" class="jumbotron"  >
         <h1 class="display-4" style="color: white">Mi Mexico </h1>
         <p class="lead" style="color: white"><small>Authentic Mexican Food</small></p>
-    </div>
+    
 
-    @*Button Container*@
-    <div class="container">
+        @*Button Container*@
+        <div class="container">
 
-        @using (Html.BeginForm("Menu", "Home"))
-        {
-            <input type="submit" class="btn btn-light" value="Menu" />
-
-            @using (Html.BeginForm("Order", "Home"))
+            @using (Html.BeginForm("Menu", "Home"))
             {
-                <input type="submit" class="btn btn-light" value="Order" />
+                <input type="submit" class="btn btn-light" value="Menu" />
 
+                @using (Html.BeginForm("Order", "Home"))
+                {
+                    <input type="submit" class="btn btn-light" value="Order" />
+
+                }
+
+                @using (Html.BeginForm("AboutUs", "Home"))
+                {
+                    <input type="submit" class="btn btn-light" value="About Us" />
+
+                }
             }
-
-            @using (Html.BeginForm("AboutUs", "Home"))
-            {
-                <input type="submit" class="btn btn-light" value="About Us" />
-
-            }
-        }
+        </div>
     </div>
 </div>
 
