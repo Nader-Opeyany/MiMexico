@@ -3,7 +3,7 @@ using MiMexicoWeb.Models;
 using System.Diagnostics;
 
 
-namespace MiMexicoWeb.Controllers
+namespace MiMexicoWeb.Areas.Customer.Controllers
 {
     public class HomeController : Controller
     {
