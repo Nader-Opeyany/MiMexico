@@ -9,7 +9,7 @@
 
         public String customerLastName { get; set; }
 
-        public String[] order { get; set; }
+        public String[] order { get; set; } = new string[50];
         
         public String specialInstructions { get; set; }
         
