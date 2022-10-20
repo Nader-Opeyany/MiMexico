@@ -3,13 +3,87 @@
 }
 @*<h1>@ViewData["Title"]</h1>*@
 
+@model OrderClass
+
 @*Menu Screen*@
 <div class="py-5">
+    <script>
+        function changeQuantity(id, increment)
+        {
+            if(increment)
+            {
+                document.getElementById(id).value++;
+            }
+            if(!increment)
+            {
+                document.getElementById(id).value--;
+                if(document.getElementById(id).value <= 0)
+                {
+                    document.getElementById(id).value = 0;
+                }
+            }
+            console.log(document.getElementById(id).value);
+
+        }
+    </script>
+    <script>
+        function storeOrder(storeId, quantityId, orderString)
+        {
+            //Adds order item to order value if it's empty
+            if(document.getElementById(storeId).value == "" && document.getElementById(quantityId).value != 0)
+            {
+                document.getElementById(storeId).value += document.getElementById(quantityId).value.toString() + " " + orderString.toString() + ",";
+            }
+            else if(document.getElementById(storeId).value != "")
+            {
+                //splits the current order value by commas and sets what the new incoming order item is
+                let orderArray = document.getElementById(storeId).value.split(",");
+                let newOrderItem = document.getElementById(quantityId).value.toString() + " " + orderString.toString();
+                
+                //Checks to see if the new order item has already been ordered and adjusts the quantity
+                //of the ordered item
+                for(let i = 0; i < orderArray.length; i++)
+                {
+                    let tempOrderArray = orderArray[i].split(" ");
+                    console.log(orderArray[orderArray.length] + ":Last order item in array");
+                    let tempOrder = newOrderItem.split(" ");
+                    if(tempOrder[1] == tempOrderArray[1])
+                    {
+                        if(document.getElementById(quantityId).value <= 0)
+                        {
+                            for(let j = i; j < orderArray.length; j++)
+                            {
+                                orderArray[j] = orderArray[j+1];
+                            }
+                            document.getElementById(storeId).value = orderArray.join(",").slice(0,-1);
+                            return;
+                        }
+
+                        tempOrderArray[0] = tempOrder[0];
+                        orderArray[i] = tempOrderArray.join(" ");
+                        document.getElementById(storeId).value = orderArray.join(",");
+                        return;
+                    }
+                }
+                //The new order item wasn't previously ordered so we add it to the order list here!
+                if(document.getElementById(quantityId).value <= 0)
+                {
+                    console.log("Cannot Add Zero Of An Item");
+                    return;
+                }
+                else{
+                    document.getElementById(storeId).value += document.getElementById(quantityId).value.toString() + " " + orderString.toString() + ",";
+                    return;
+                }
+            }
+        }
+    </script>
 
     @*Choice of Meats section*@
     <h3 class="display-4 text-white">Choice of Meats</h3>
     <div class="container">
         <div class="row">
+            <input id="order" value="" />
             @*Item Cards*@
             <div class="col-md-auto mb-4">
                 <div class="col" style="
@@ -42,8 +116,8 @@
                                     width: 80px;
                                     padding-inline: 10px;
                                 "
+                                onclick="storeOrder('order', 'one', 'Asada')"
                         >Add</button>
-
                         @*Increase Quantatity Button*@
                         <button type="button" 
                                 style="
@@ -57,10 +131,11 @@
                                     justify-content: center;
                                     margin-left: 30px;
                                 "
+                                onclick="changeQuantity('one', true)"
                         >+</button>
 
                         @*Quantatiy Number*@
-                        <input type="number" style="width: 40px; margin-inline: 5px;"/>
+                        <input id="one" value="0" style="width: 40px; margin-inline: 5px;"/>
 
                         @*Decrease Quantatity Button*@
                         <button type="button"
@@ -73,6 +148,7 @@
                                     align-items: center;
                                     justify-content: center;
                                 "
+                                onclick="changeQuantity('one', false)"
                         >-</button>
                     </div>
                 </div>
@@ -588,45 +664,48 @@
 
                             @*Add item to cart*@
                             <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
+                                style="
+                                    border: none; 
+                                    border-radius: 20px; 
+                                    background-color: #9A3A3A; 
+                                    color: white;
+                                    width: 80px;
+                                    padding-inline: 10px;
                                     "
+                                    onclick="storeOrder('order', 'two', 'Taco(Asada)')"
                             >Add</button>
 
                             @*Increase Quantatity Button*@
                             <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
+                                style="
+                                    border: none; 
+                                    border-radius: 35px; 
+                                    background-color: black; 
+                                    color: white;
+                                    width: 35px;
+                                    height: 35px;
+                                    align-items: center;
+                                    justify-content: center;
+                                    margin-left: 30px;
                                     "
+                                onclick="changeQuantity('two', true)"
                             >+</button>
 
                             @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
+                            <input id="two" value="0" style="width: 40px; margin-inline: 5px;"/>
 
                             @*Decrease Quantatity Button*@
                             <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
+                                style="border: none; 
+                                    border-radius: 35px; 
+                                    background-color: black; 
+                                    color: white;
+                                    width: 35px;
+                                    height: 35px;
+                                    align-items: center;
+                                    justify-content: center;
                                     "
+                                    onclick="changeQuantity('two', false)"
                             >-</button>
                         </div>
                     </div>
@@ -1142,47 +1221,49 @@
                             <br />
 
                             @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
+                        <button type="button" 
+                                style="
+                                    border: none; 
+                                    border-radius: 20px; 
+                                    background-color: #9A3A3A; 
+                                    color: white;
+                                    width: 80px;
+                                    padding-inline: 10px;
+                                "
+                                onclick="storeOrder('order', 'three', 'Burrito(Asada)')"
+                        >Add</button>
+                        @*Increase Quantatity Button*@
+                        <button type="button" 
+                                style="
+                                    border: none; 
+                                    border-radius: 35px; 
+                                    background-color: black; 
+                                    color: white;
+                                    width: 35px;
+                                    height: 35px;
+                                    align-items: center;
+                                    justify-content: center;
+                                    margin-left: 30px;
+                                "
+                                onclick="changeQuantity('three', true)"
+                        >+</button>
 
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
+                        @*Quantatiy Number*@
+                        <input id="three" value="0" style="width: 40px; margin-inline: 5px;"/>
 
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
+                        @*Decrease Quantatity Button*@
+                        <button type="button"
+                                style="border: none; 
+                                    border-radius: 35px; 
+                                    background-color: black; 
+                                    color: white;
+                                    width: 35px;
+                                    height: 35px;
+                                    align-items: center;
+                                    justify-content: center;
+                                "
+                                onclick="changeQuantity('three', false)"
+                        >-</button>
                         </div>
                     </div>
                 </div>

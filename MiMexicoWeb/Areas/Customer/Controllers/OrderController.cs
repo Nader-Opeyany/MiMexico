@@ -1,4 +1,4 @@
-﻿/*using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MiMexicoWeb.Models;
 
@@ -15,15 +15,9 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             return View(currentView);
         }
 
-       /* public ActionResult AddItem(OrderClass model, string orderItem, int orderQuantity)
+        public ActionResult AddItem(OrderClass model, string orderItem, int orderQuantity)
         {
-            for(int i = 0; i < 50; i++ )
-            {
-                if(model.order[i] != null)
-                {
-                    model.order[i] = orderQuantity.ToString() + " " + orderItem;
-                }
-            }
+            model.order += orderQuantity.ToString() + " " + orderItem +"| ";
 
             return View(model);
         }
@@ -64,4 +58,3 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
         }
     }
 }
-*/
