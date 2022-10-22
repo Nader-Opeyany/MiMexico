@@ -5,60 +5,90 @@
 }
 @*<h1>@ViewData["Title"]</h1>*@
 
-    <form method="post">
-        <div calss="border p-3 mt-4">
-            <div class="row pb-2">
-                <h2 class="text-primary">Submit Order</h2>
-                <hr />
-            </div>
-            <div class="mb-3">
-                <label asp-for="customerFirstName"></label>
-                <input asp-for="customerFirstName" class="form-control" />
-                <span asp-validation-for="customerFirstName" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="customerLastName"></label>
-                <input asp-for="customerLastName" class="form-control" />
-                <span asp-validation-for="customerLastName" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="order"></label>
-                <input asp-for="order" class="form-control" />
-                <span asp-validation-for="order" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="specialInstructions"></label>
-                <input asp-for="specialInstructions" class="form-control" />
-                <span asp-validation-for="specialInstructions" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="price"></label>
-                <input asp-for="price" class="form-control" />
-                <span asp-validation-for="price" class="text-danger"></span>
-            </div>
-            <div class="mb-3">
-                <label asp-for="completed"></label>
-                <input asp-for="completed" class="form-control" />
-                <span asp-validation-for="completed" class="text-danger"></span>
-            </div>
-
-            <input text="submit" type="submit" class="btn btn-primary" style="width: 150px">
-            <a asp-controller="Order" asp-action="Order" class="btn btn-secondary" style="width:150px">
-                Back to List
-            </a>
-        </div>
-    </form>
-
+@model OrderClass
 
 @*Menu Screen*@
 <div class="py-5">
+    <script>
+        function changeQuantity(id, increment)
+        {
+            if(increment)
+            {
+                document.getElementById(id).value++;
+            }
+            if(!increment)
+            {
+                document.getElementById(id).value--;
+                if(document.getElementById(id).value <= 0)
+                {
+                    document.getElementById(id).value = 0;
+                }
+            }
+            console.log(document.getElementById(id).value);
 
-    @*Choice of Meats section*@
-    <h3 class="display-4 text-white">Choice of Meats</h3>
+        }
+    </script>
+    <script>
+        function storeOrder(storeId, quantityId, orderString)
+        {
+            //Adds order item to order value if it's empty
+            if(document.getElementById(storeId).value == "" && document.getElementById(quantityId).value != 0)
+            {
+                document.getElementById(storeId).value += document.getElementById(quantityId).value.toString() + " " + orderString.toString() + ",";
+            }
+            else if(document.getElementById(storeId).value != "")
+            {
+                //splits the current order value by commas and sets what the new incoming order item is
+                let orderArray = document.getElementById(storeId).value.split(",");
+                let newOrderItem = document.getElementById(quantityId).value.toString() + " " + orderString.toString();
+                
+                //Checks to see if the new order item has already been ordered and adjusts the quantity
+                //of the ordered item
+                for(let i = 0; i < orderArray.length; i++)
+                {
+                    let tempOrderArray = orderArray[i].split(" ");
+                    console.log(orderArray[orderArray.length] + ":Last order item in array");
+                    let tempOrder = newOrderItem.split(" ");
+                    if(tempOrder[1] == tempOrderArray[1])
+                    {
+                        if(document.getElementById(quantityId).value <= 0)
+                        {
+                            for(let j = i; j < orderArray.length; j++)
+                            {
+                                orderArray[j] = orderArray[j+1];
+                            }
+                            document.getElementById(storeId).value = orderArray.join(",").slice(0,-1);
+                            return;
+                        }
+
+                        tempOrderArray[0] = tempOrder[0];
+                        orderArray[i] = tempOrderArray.join(" ");
+                        document.getElementById(storeId).value = orderArray.join(",");
+                        return;
+                    }
+                }
+                //The new order item wasn't previously ordered so we add it to the order list here!
+                if(document.getElementById(quantityId).value <= 0)
+                {
+                    console.log("Cannot Add Zero Of An Item");
+                    return;
+                }
+                else{
+                    document.getElementById(storeId).value += document.getElementById(quantityId).value.toString() + " " + orderString.toString() + ",";
+                    return;
+                }
+            }
+        }
+    </script>
+
+    @*Food section*@
+    <h3 class="display-4 text-white">Food</h3>
     <div class="container">
         <div class="row">
-            @*Item Cards*@
-            <div class="col-md-auto mb-4">
+            <input id="order" value="" />
+
+            @* Tacos Item Card*@
+            <div class="col-md-auto my-md-4">
                 <div class="col" style="
                     background: tan; 
                     border-radius: 25px;
@@ -74,1643 +104,183 @@
                     @*Item card details*@
                     <div class="row" style="padding-inline: 20px;">
                         <p>
-                            <b style="font-size: 24px;">Asada</b>
-                            <small style="margin-left: 90px;">$18.00</small>
+                            <b style="font-size: 24px;">Taco(s)</b>
+                            <small style="margin-left: 90px;">$2.00</small>
                         </p>
                         <br />
 
                         @*Add item to cart*@
-                        <button type="button" 
+                        <button class="btn btn-primary" 
                                 style="
                                     border: none; 
                                     border-radius: 20px; 
-                                    background-color: #9A3A3A; 
-                                    color: white;
-                                    width: 80px;
+                                    background-color: #9A3A3A;
+                                    color: white;                               
                                     padding-inline: 10px;
                                 "
-                        >Add</button>
+                                data-bs-toggle="modal"
+                                data-bs-target="#reg-modal"
 
-                        @*Increase Quantatity Button*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-left: 30px;
-                                "
-                        >+</button>
-
-                        @*Quantatiy Number*@
-                        <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                        @*Decrease Quantatity Button*@
-                        <button type="button"
-                                style="border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                "
-                        >-</button>
+                        >Add Item</button>
                     </div>
                 </div>
             </div>
 
-            @*Item Cards*@
-            <div class="col-md-auto">
-                <div class="col" style="
-                    background: tan; 
-                    border-radius: 25px;
-                    width: 250px;
-                    height: 200px;
-                ">
-                    @*Item card image*@
-                    <div>
-                        <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                             style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                    </div>
+            @*Tacos Modal*@
+            <div class="modal fade" id="reg-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            @*<h5 class="modal-title" id="modal-title">Test Modal</h5>*@
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
 
-                    @*Item card details*@
-                    <div class="row" style="padding-inline: 20px;">
-                        <p>
-                            @*Item name*@
-                            <b style="font-size: 24px;">Asada</b>
-                            <small style="margin-left: 90px;">$18.00</small>
-                        </p>
-                        <br />
+                            @*Image container*@
+                            <div class="container">
+                                <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
+                                 style=" width:100%; height: 120%; border-radius:25px;">
+                            </div>         
 
-                        @*Add item to cart*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 20px; 
-                                    background-color: #9A3A3A; 
-                                    color: white;
-                                    width: 80px;
-                                    padding-inline: 10px;
-                                "
-                        >Add</button>
+                            @*Item name and price container*@
+                            <div class="container my-md-2">
+                                <div class="d-flex justify-content-between my-md-1 mx-md-4">
+                                    <b style="font-size: 28px;">Taco(s)</b>
+                                    <small>$3.50 / each</small>
+                                </div>
+                        
+                            </div>
 
-                        @*Increase Quantatity Button*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-left: 30px;
-                                "
-                        >+</button>
+                            <hr />
 
-                        @*Quantatiy Number*@
-                        <input type="number" style="width: 40px; margin-inline: 5px;"/>
+                            @*Item Description Container*@
+                            <div class="container my-md-2">
+                                <h6 style="font-weight:bold">Description</h6>
+                                <p>A soft corn tortilla with onion, cilantro, and any choice of meat.</p>
+                            </div>
 
-                        @*Decrease Quantatity Button*@
-                        <button type="button"
-                                style="border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                "
-                        >-</button>
-                    </div>
-                </div>
-            </div>
+                            <hr />
 
-            @*Item Cards*@
-            <div class="col-md-auto">
-                <div class="col" style="
-                    background: tan; 
-                    border-radius: 25px;
-                    width: 250px;
-                    height: 200px;
-                ">
-                    @*Item card image*@
-                    <div>
-                        <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                             style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                    </div>
+                            @*Choice of meat Container*@
+                            <div class="container my-md-2">
+                                <h6 style="font-weight:bold;">Choice of Meats</h6>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+                                        Carnitas / Fried Pork
+                                    </li>
 
-                    @*Item card details*@
-                    <div class="row" style="padding-inline: 20px;">
-                        <p>
-                            <b style="font-size: 24px;">Asada</b>
-                            <small style="margin-left: 90px;">$18.00</small>
-                        </p>
-                        <br />
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+                                        Asada / Beef
+                                    </li>
 
-                        @*Add item to cart*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 20px; 
-                                    background-color: #9A3A3A; 
-                                    color: white;
-                                    width: 80px;
-                                    padding-inline: 10px;
-                                "
-                        >Add</button>
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+                                        Alpastor / Marinated Pork
+                                    </li>
 
-                        @*Increase Quantatity Button*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-left: 30px;
-                                "
-                        >+</button>
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+                                        Pollo / Chicken
+                                    </li>
 
-                        @*Quantatiy Number*@
-                        <input type="number" style="width: 40px; margin-inline: 5px;"/>
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+                                        Birria
+                                    </li>
 
-                        @*Decrease Quantatity Button*@
-                        <button type="button"
-                                style="border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                "
-                        >-</button>
-                    </div>
-                </div>
-            </div>
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+                                        Cabeza / Beef Cheek
+                                    </li>
 
-            @*Item Cards*@
-            <div class="col-md-auto">
-                <div class="col" style="
-                    background: tan; 
-                    border-radius: 25px;
-                    width: 250px;
-                    height: 200px;
-                ">
-                    @*Item card image*@
-                    <div>
-                        <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                             style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                    </div>
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+                                        Lengua / Beef tongue
+                                    </li>
 
-                    @*Item card details*@
-                    <div class="row" style="padding-inline: 20px;">
-                        <p>
-                            <b style="font-size: 24px;">Asada</b>
-                            <small style="margin-left: 90px;">$18.00</small>
-                        </p>
-                        <br />
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+                                        Tripa / Tripe Stomach
+                                    </li>
 
-                        @*Add item to cart*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 20px; 
-                                    background-color: #9A3A3A; 
-                                    color: white;
-                                    width: 80px;
-                                    padding-inline: 10px;
-                                "
-                        >Add</button>
+                                    <li class="list-group-item">
+                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+                                        Chorizo / Mexican sausage
+                                    </li>
+                                </ul>
+                            </div>
 
-                        @*Increase Quantatity Button*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-left: 30px;
-                                "
-                        >+</button>
+                            <hr />
 
-                        @*Quantatiy Number*@
-                        <input type="number" style="width: 40px; margin-inline: 5px;"/>
+                            @*Special Instructions Container*@
+                            <div class="container my-md-2">
+                                <h6 style="font-weight:bold;">Special Instructions</h6>
+                                <textarea class="form-control" rows="3"></textarea>
+                            </div>
 
-                        @*Decrease Quantatity Button*@
-                        <button type="button"
-                                style="border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                "
-                        >-</button>
-                    </div>
-                </div>
-            </div>
+                            <hr />
 
-            @*Item Cards*@
-            <div class="col-md-auto">
-                <div class="col" style="
-                    background: tan; 
-                    border-radius: 25px;
-                    width: 250px;
-                    height: 200px;
-                ">
-                    @*Item card image*@
-                    <div>
-                        <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                             style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                    </div>
+                            @*Quantity Container*@
+                            <div class="container my-md-2">
+                                @*Title*@
+                                <h6 style="font-weight:bold;">Quantity</h6>
+                                <div class="d-flex justify-content-center">
+                                    @*Plus Button*@
+                                    <button type="button" 
+                                            style="
+                                                border: none; 
+                                                border-radius: 35px; 
+                                                background-color: black; 
+                                                color: white;
+                                                width: 35px;
+                                                height: 35px;
+                                                align-items: center;
+                                                justify-content: center;
+                                                /*margin-left: 30px;*/
+                                            "
+                                            onclick="changeQuantity('one', true)"
+                                    >+</button>
 
-                    @*Item card details*@
-                    <div class="row" style="padding-inline: 20px;">
-                        <p>
-                            <b style="font-size: 24px;">Asada</b>
-                            <small style="margin-left: 90px;">$18.00</small>
-                        </p>
-                        <br />
+                                    @*Number of items selected*@
+                                    <input type="number" id="one" value="0" style="width: 10%; margin-inline: 5px;"/>
 
-                        @*Add item to cart*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 20px; 
-                                    background-color: #9A3A3A; 
-                                    color: white;
-                                    width: 80px;
-                                    padding-inline: 10px;
-                                "
-                        >Add</button>
+                                    @*Minus button*@
+                                    <button type="button"
+                                            style="border: none; 
+                                                border-radius: 35px; 
+                                                background-color: black; 
+                                                color: white;
+                                                width: 35px;
+                                                height: 35px;
+                                                align-items: center;
+                                                justify-content: center;
+                                            "
+                                            onclick="changeQuantity('one', false)"
+                                    >-</button>
+                                </div>
+                            </div>
 
-                        @*Increase Quantatity Button*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-left: 30px;
-                                "
-                        >+</button>
-
-                        @*Quantatiy Number*@
-                        <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                        @*Decrease Quantatity Button*@
-                        <button type="button"
-                                style="border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                "
-                        >-</button>
-                    </div>
-                </div>
-            </div>
-
-            @*Item Cards*@
-            <div class="col-md-auto">
-                <div class="col" style="
-                    background: tan; 
-                    border-radius: 25px;
-                    width: 250px;
-                    height: 200px;
-                ">
-                    @*Item card image*@
-                    <div>
-                        <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                             style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                    </div>
-
-                    @*Item card details*@
-                    <div class="row" style="padding-inline: 20px;">
-                        <p>
-                            <b style="font-size: 24px;">Asada</b>
-                            <small style="margin-left: 90px;">$18.00</small>
-                        </p>
-                        <br />
-
-                        @*Add item to cart*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 20px; 
-                                    background-color: #9A3A3A; 
-                                    color: white;
-                                    width: 80px;
-                                    padding-inline: 10px;
-                                "
-                        >Add</button>
-
-                        @*Increase Quantatity Button*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-left: 30px;
-                                "
-                        >+</button>
-
-                        @*Quantatiy Number*@
-                        <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                        @*Decrease Quantatity Button*@
-                        <button type="button"
-                                style="border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                "
-                        >-</button>
-                    </div>
-                </div>
-            </div>
-
-            @*Item Cards*@
-            <div class="col-md-auto">
-                <div class="col" style="
-                    background: tan; 
-                    border-radius: 25px;
-                    width: 250px;
-                    height: 200px;
-                ">
-                    @*Item card image*@
-                    <div>
-                        <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                             style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                    </div>
-
-                    @*Item card details*@
-                    <div class="row" style="padding-inline: 20px;">
-                        <p>
-                            <b style="font-size: 24px;">Asada</b>
-                            <small style="margin-left: 90px;">$18.00</small>
-                        </p>
-                        <br />
-
-                        @*Add item to cart*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 20px; 
-                                    background-color: #9A3A3A; 
-                                    color: white;
-                                    width: 80px;
-                                    padding-inline: 10px;
-                                "
-                        >Add</button>
-
-                        @*Increase Quantatity Button*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-left: 30px;
-                                "
-                        >+</button>
-
-                        @*Quantatiy Number*@
-                        <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                        @*Decrease Quantatity Button*@
-                        <button type="button"
-                                style="border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                "
-                        >-</button>
-                    </div>
-                </div>
-            </div>
-
-            @*Item Cards*@
-            <div class="col-md-auto">
-                <div class="col" style="
-                    background: tan; 
-                    border-radius: 25px;
-                    width: 250px;
-                    height: 200px;
-                ">
-                    @*Item card image*@
-                    <div>
-                        <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                             style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                    </div>
-
-                    @*Item card details*@
-                    <div class="row" style="padding-inline: 20px;">
-                        <p>
-                            <b style="font-size: 24px;">Asada</b>
-                            <small style="margin-left: 90px;">$18.00</small>
-                        </p>
-                        <br />
-
-                        @*Add item to cart*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 20px; 
-                                    background-color: #9A3A3A; 
-                                    color: white;
-                                    width: 80px;
-                                    padding-inline: 10px;
-                                "
-                        >Add</button>
-
-                        @*Increase Quantatity Button*@
-                        <button type="button" 
-                                style="
-                                    border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-left: 30px;
-                                "
-                        >+</button>
-
-                        @*Quantatiy Number*@
-                        <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                        @*Decrease Quantatity Button*@
-                        <button type="button"
-                                style="border: none; 
-                                    border-radius: 35px; 
-                                    background-color: black; 
-                                    color: white;
-                                    width: 35px;
-                                    height: 35px;
-                                    align-items: center;
-                                    justify-content: center;
-                                "
-                        >-</button>
+                            @*Add item to cart button*@
+                            <div class="container">
+                                <button class="btn btn-primary" 
+                                    style="
+                                        border: none; 
+                                        border-radius: 20px; 
+                                        background-color: #9A3A3A;
+                                        color: white;                               
+                                        padding-inline: 10px;
+                                        width:100%;
+                                   "
+                                   onclick="storeOrder('order', 'one', 'Taco(s)')"
+                                >Add to cart</button>
+                            </div>
+                    
+                        </div>
                     </div>
                 </div>
             </div>
         </div>    
-    </div>
-
-    <br />
-
-    @*Tacos Section*@
-    <div>
-        <h3 class="display-4 text-white">Tacos</h3>
-        <div class="container">
-            <div class="row">
-                @*Item Cards*@
-                <div class="col-md-auto mb-4">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                @*Item name*@
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <br />
-
-    @*Burritos Section*@
-    <div>
-        <h3 class="display-4 text-white">Burritos</h3>
-        <div class="container">
-            <div class="row">
-                @*Item Cards*@
-                <div class="col-md-auto mb-4">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                @*Item name*@
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-
-                @*Item Cards*@
-                <div class="col-md-auto">
-                    <div class="col" style="
-                        background: tan; 
-                        border-radius: 25px;
-                        width: 250px;
-                        height: 200px;
-                    ">
-                        @*Item card image*@
-                        <div>
-                            <img src="https://assets.bonappetit.com/photos/57ad3f9cf1c801a1038bcadf/master/pass/grilled-sliced-brisket.jpg"
-                                 style="width: 250px; height: 100px; border-top-left-radius: 25px; border-top-right-radius: 25px">
-                        </div>
-
-                        @*Item card details*@
-                        <div class="row" style="padding-inline: 20px;">
-                            <p>
-                                <b style="font-size: 24px;">Asada</b>
-                                <small style="margin-left: 90px;">$18.00</small>
-                            </p>
-                            <br />
-
-                            @*Add item to cart*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 20px; 
-                                        background-color: #9A3A3A; 
-                                        color: white;
-                                        width: 80px;
-                                        padding-inline: 10px;
-                                    "
-                            >Add</button>
-
-                            @*Increase Quantatity Button*@
-                            <button type="button" 
-                                    style="
-                                        border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                        margin-left: 30px;
-                                    "
-                            >+</button>
-
-                            @*Quantatiy Number*@
-                            <input type="number" style="width: 40px; margin-inline: 5px;"/>
-
-                            @*Decrease Quantatity Button*@
-                            <button type="button"
-                                    style="border: none; 
-                                        border-radius: 35px; 
-                                        background-color: black; 
-                                        color: white;
-                                        width: 35px;
-                                        height: 35px;
-                                        align-items: center;
-                                        justify-content: center;
-                                    "
-                            >-</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>

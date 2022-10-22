@@ -61,13 +61,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
         public ActionResult AddItem(OrderClass model, string orderItem, int orderQuantity)
         {
-            for (int i = 0; i < 50; i++)
-            {
-                if (model.order != null)
-                {
-                    model.order = orderQuantity.ToString() + " " + orderItem;
-                }
-            }
+            model.order += orderQuantity.ToString() + " " + orderItem +"| ";
 
             return View(model);
         }
