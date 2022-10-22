@@ -8,19 +8,16 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private OrderClass orderClass;
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            orderClass = new OrderClass();
         }
 
 
         public IActionResult Menu()
-        {
-            return View();
-        }
-
-        public IActionResult Order()
         {
             return View();
         }
