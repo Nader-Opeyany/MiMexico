@@ -9,6 +9,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
     public class OrderController : Controller
     {
         private readonly ApplicationDBContext _db;
+        public OrderClass currentView = new OrderClass();
 
         public OrderController(ApplicationDBContext db)
         {
@@ -22,6 +23,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                 }*/
 
         // GET
+
         [HttpGet]
         public IActionResult Order()
         {
@@ -43,15 +45,6 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
         }
 
-        /*        public IActionResult Index(OrderClass obj)
-                {
-                    _db.SimpleOrderTable.Add(obj);
-                    _db.SaveChanges();
-                }*/
-
-
-
-        public OrderClass currentView = new OrderClass();
 
         // GET: OrderController
         public ActionResult Index()

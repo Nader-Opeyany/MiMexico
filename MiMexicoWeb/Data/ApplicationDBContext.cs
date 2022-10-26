@@ -10,7 +10,13 @@ namespace MiMexicoWeb.Data
 
         }
 
+        public DbSet<Meat> Meats { get; set; }
+
         //Creating Table
         public DbSet<OrderClass> SimpleOrderTable { get; set; }
+
+        public DbSet<Condiment> Condiments { get; set; }
+
+        public DbSet<Item> Items { get; set; }
     }
 }

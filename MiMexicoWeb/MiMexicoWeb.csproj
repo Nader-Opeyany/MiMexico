@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Remove="Areas\Customer\Views\Home\Class.cs" />
     <Compile Remove="Areas\Customer\Views\Home\Index1.cshtml.cs" />
+    <Compile Remove="Models\ViewModel\OrderViewModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,7 +64,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Customer\Data\" />
     <Folder Include="Controllers\" />
     <Folder Include="Migrations\" />

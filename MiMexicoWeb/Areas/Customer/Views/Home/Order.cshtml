@@ -5,7 +5,6 @@
 }
 @*<h1>@ViewData["Title"]</h1>*@
 
-@model OrderClass
 
 @*Menu Screen*@
 <div class="py-5">
@@ -80,6 +79,17 @@
             }
         }
     </script>
+    <script>
+        function displayOrder(orderId, orderSummary)
+        {
+            document.getElementById(orderSummary).value = document.getElementById(orderId).value.toString();
+            return;
+            
+        }
+    </script>
+
+
+    <button class="btn-primary" data-bs-toggle="modal" data-bs-target="#submit-modal" onclick="displayOrder('order', 'orderSummary')"> Submit </button>
 
     @*Food section*@
     <h3 class="display-4 text-white">Food</h3>
@@ -126,6 +136,59 @@
                 </div>
             </div>
 
+            @*modal checkout*@
+            <div class="modal fade" id="submit-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            Order Confirmation
+                        </div>
+                        <div class="modal-body">
+                            <form method="post">
+                                <div class="border p-3 mt-4">
+                                    <div class="container">
+                                        <div class="mb-3">
+                                            <input id="orderSummary" value="" class="form-control" readonly="readonly" />
+                                        </div>
+                                    </div>
+                                    <div class="container">
+                                        <div class="mb-3">
+                                            <label asp-for="customerFirstName"></label>
+                                            <input asp-for="customerFirstName" class="form-control" />
+                                            <span asp-validation-for="customerFirstName" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="customerLastName"></label>
+                                            <input asp-for="customerLastName" class="form-control" />
+                                            <span asp-validation-for="customerLastName" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="specialInstructions"></label>
+                                            <input asp-for="specialInstructions" class="form-control" />
+                                            <span asp-validation-for="specialInstructions" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="order"></label>
+                                            <input id="aspOrder" asp-for="order" class="form-control"/>
+                                            <span asp-validation-for="order" class="text-danger"></span>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label asp-for="price"></label>
+                                            <input asp-for="price" class="form-control" />
+                                            <span asp-validation-for="price" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <input text="submit" type="submit" class="btn btn-primary" style="width: 150px">
+                                    <a asp-controller="Home" asp-action="Submit" class="btn btn-secondary" style="width:150px">
+                                        Back
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             @*Tacos Modal*@
             <div class="modal fade" id="reg-modal" tabindex="-1" aria-labelledby="modal-title" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -166,7 +229,7 @@
                                 <h6 style="font-weight:bold;">Choice of Meats</h6>
                                 <ul class="list-group">
                                     <li class="list-group-item">
-                                        <input class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
+                                        <input  class="form-check-input me-1" type="checkbox" value="" aria-label="..." />
                                         Carnitas / Fried Pork
                                     </li>
 

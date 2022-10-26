@@ -3,6 +3,7 @@ using MiMexicoWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MiMexicoWeb.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221024163216_AddOrderClassAndMeatsToDb")]
+    partial class AddOrderClassAndMeatsToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -20,57 +22,6 @@ namespace MiMexicoWeb.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("MiMexicoWeb.Models.Condiment", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Condiments");
-                });
-
-            modelBuilder.Entity("MiMexicoWeb.Models.Item", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
-
-                    b.Property<int>("condimentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("meatId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("price")
-                        .HasColumnType("float");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("condimentId");
-
-                    b.HasIndex("meatId");
-
-                    b.ToTable("Items");
-                });
 
             modelBuilder.Entity("MiMexicoWeb.Models.Meat", b =>
                 {
@@ -122,25 +73,6 @@ namespace MiMexicoWeb.Migrations
                     b.HasKey("orderId");
 
                     b.ToTable("SimpleOrderTable");
-                });
-
-            modelBuilder.Entity("MiMexicoWeb.Models.Item", b =>
-                {
-                    b.HasOne("MiMexicoWeb.Models.Condiment", "Condiment")
-                        .WithMany()
-                        .HasForeignKey("condimentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MiMexicoWeb.Models.Meat", "Meat")
-                        .WithMany()
-                        .HasForeignKey("meatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Condiment");
-
-                    b.Navigation("Meat");
                 });
 #pragma warning restore 612, 618
         }

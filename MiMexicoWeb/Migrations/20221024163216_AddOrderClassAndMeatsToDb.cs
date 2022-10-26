@@ -4,10 +4,23 @@
 
 namespace MiMexicoWeb.Migrations
 {
-    public partial class AddMiMexicoToDb : Migration
+    public partial class AddOrderClassAndMeatsToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Meats",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Meats", x => x.id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "SimpleOrderTable",
                 columns: table => new
@@ -29,6 +42,9 @@ namespace MiMexicoWeb.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Meats");
+
             migrationBuilder.DropTable(
                 name: "SimpleOrderTable");
         }

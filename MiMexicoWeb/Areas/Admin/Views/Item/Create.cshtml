@@ -1,0 +1,54 @@
+﻿@model MiMexicoWeb.Models.ViewModel.ItemViewModel
+
+<form method="post" asp-action="Create" enctype="multipart/form-data">
+    <div calss="border p-3 mt-4">
+        <div class="row pb-2">
+            <hr />
+        </div>
+        @* <div asp-validation-summary="All"></div>*@
+        <div class="mb-3">
+            <label asp-for="Item.name"></label>
+            <input asp-for="Item.name" class="form-control" />
+            <span asp-validation-for="Item.name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item.description"></label>
+            <textarea asp-for="Item.description" rows="3" class="form-control"></textarea>
+            <span asp-validation-for="Item.description" class="text-danger"></span>
+        </div>
+        <div class="mb-3 col-6">
+            <label asp-for="Item.price"></label>
+            <input asp-for="Item.price" class="form-control" />
+            <span asp-validation-for="Item.price" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item.meatId"></label>
+            <select asp-for="Item.meatId" asp-items="@Model.MeatList" class="form-select">
+                <option diabled selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="Item.meatId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item.condimentId"></label>
+            <select asp-for="Item.condimentId" asp-items="@Model.CondimentList" class="form-select">
+                <option diabled selected>--Select Category--</option>
+            </select>
+            <span asp-validation-for="Item.condimentId" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 150px">Create</button>
+
+        <div class="col-12">
+            @if (Model.Item.id != 0)
+            {
+                <button type="submit" class="btn btn-primary" style="width: 150px">Update</button>
+            }
+            else
+            {
+                <button type="submit" onclick="return ValidateInput()" class="btn btn-primary" style="width: 150px">Create</button>
+            }
+            <a asp-controller="Product" asp-action="index" class="btn btn-secondary" style="width:150px">
+                Back to List
+            </a>
+        </div>
+    </div>
+</form>

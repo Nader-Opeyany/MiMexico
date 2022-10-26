@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.Features;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MiMexicoWeb.Models
 {
@@ -12,14 +11,12 @@ namespace MiMexicoWeb.Models
         public String customerFirstName { get; set; }
 
         public String customerLastName { get; set; }
+        public String order { get; set; }
 
-        public String order { get; set; } 
-        
         public String specialInstructions { get; set; }
-        
+
         public float price { get; set; }
 
         public bool completed { get; set; }
-
     }
 }
