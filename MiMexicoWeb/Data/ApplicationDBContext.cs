@@ -18,5 +18,7 @@ namespace MiMexicoWeb.Data
         public DbSet<Condiment> Condiments { get; set; }
 
         public DbSet<Item> Items { get; set; }
+
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
     }
 }
