@@ -13,5 +13,7 @@ namespace MiMexicoWeb.Models.ViewModel
 
         [ValidateNever]
         public IEnumerable<SelectListItem> CondimentList { get; set; }
+
+  
     }
 }

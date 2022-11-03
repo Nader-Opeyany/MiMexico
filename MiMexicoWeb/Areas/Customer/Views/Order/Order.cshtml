@@ -20,7 +20,7 @@
             </div>
             <div class="mb-3">
                 <label asp-for="customerLastName"></label>
-                <input asp-for="customerLastName" value="Herbert" class="form-control" />
+                <input asp-for="customerLastName" value="" class="form-control" />
                 <span asp-validation-for="customerLastName" class="text-danger"></span>
             </div>
             <div class="mb-3">
@@ -75,6 +75,7 @@
                         <br />
 
                         @*Add item to cart*@
+                        <a asp-controller="ShoppingCart" asp-action="Order" class="btn btn-secondary" style="width:150px"> </a>
                         <input type="hidden" asp-for="order"/>
                         <input type="button" onclick="chooseFoodItem.call(this)" asp-for="order" class="btn"
                             style="
