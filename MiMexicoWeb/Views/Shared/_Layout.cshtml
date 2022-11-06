@@ -10,6 +10,8 @@
 @*    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MiMexicoWeb.styles.css" asp-append-version="true" />
+	<link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+	<link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -58,9 +60,8 @@
                 </div>
             </div>
         </nav>
-@*        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MiMexicoWeb</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -68,23 +69,24 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu" id="btnFood">Food</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu">Menu</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu" id="btnDrinks">Drinks</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Order">Order</a>
+							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu" id="btnChoiceOfMeats">Choice of Meats</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">About Us</a>
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Submit"><i class="fa-solid fa-cart-shopping"></i></a>
                         </li>
                     </ul>
                 </div>
             </div>
-        </nav>*@
+        </nav>
     </header>
-    <div class="container">
+    
+        <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -96,8 +98,8 @@
                 <div class="p-5">
                     <h3 class="text-white">Location</h3>
                     <div>
-@*                        <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfd4yuh-2cd0ce1b-0406-42f6-9eeb-e5556de3a21f.png/v1/fill/w_1118,h_715,q_70,strp/screenshot_www_google_com_2022_09_10_16_31_13_by_wizard_emeraldheart_dfd4yuh-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzY0IiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmQ0eXVoLTJjZDBjZTFiLTA0MDYtNDJmNi05ZWViLWU1NTU2ZGUzYTIxZi5wbmciLCJ3aWR0aCI6Ijw9MTE5NCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.0wZVwlV6G85MWRa-04js4qZB5q7vsxLY8GBiSEptajc"
-                             width="300">*@
+                       <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfd4yuh-2cd0ce1b-0406-42f6-9eeb-e5556de3a21f.png/v1/fill/w_1118,h_715,q_70,strp/screenshot_www_google_com_2022_09_10_16_31_13_by_wizard_emeraldheart_dfd4yuh-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzY0IiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmQ0eXVoLTJjZDBjZTFiLTA0MDYtNDJmNi05ZWViLWU1NTU2ZGUzYTIxZi5wbmciLCJ3aWR0aCI6Ijw9MTE5NCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.0wZVwlV6G85MWRa-04js4qZB5q7vsxLY8GBiSEptajc"
+                             width="300">
                         <div class="row">
                             <div class="form-group col-md-4">
                                 <input type="text" name="city" class="form-control" value="Riego & Elverta 95626" id="txtCity" />
@@ -144,6 +146,24 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXcUWLJbW7CjaKj897e2x4B1KJs65AZVk"></script>
     <script>
+        const btnDrinks = document.getElementById("btnDrinks");
+        btnDrinks.addEventListener("click", function (e) {
+            e.preventDefault();
+            window.scrollTo(0, 1750);
+        });
+
+        const btnFood = document.getElementById("btnFood");
+        btnFood.addEventListener("click", function (f) {
+            f.preventDefault();
+            window.scrollTo(0, 180);
+        });
+
+        const btnChoiceOfMeats = document.getElementById("btnChoiceOfMeats");
+        btnChoiceOfMeats.addEventListener("click", function (g) {
+            g.preventDefault();
+            window.scrollTo(0, 1050);
+        });
+
         $(document).ready(function () {
             $("#btn").click(function () {
                 var geocoder = new google.maps.Geocoder();
