@@ -16,5 +16,8 @@ namespace MiMexicoWeb.Models
         [ValidateNever]
         public Item Item { get; set; }
         public int quantity { get; set; }
+
+        [NotMapped]
+        public double Price { get; set; }
     }
 }

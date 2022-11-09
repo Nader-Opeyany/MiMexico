@@ -14,6 +14,11 @@ namespace MiMexicoWeb.Models.ViewModel
 
         [ValidateNever]
         public IEnumerable<SelectListItem> CondimentList { get; set; }
+        [ValidateNever]
+
+        public IEnumerable<SelectListItem> ItemList { get; set; }
+
+        public ShoppingCart ShoppingCart { get; set; }
 
   
     }

@@ -1,19 +1,33 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using MiMexicoWeb.Areas.Admin.Controllers;
 using MiMexicoWeb.Data;
+using MiMexicoWeb.Migrations;
 using MiMexicoWeb.Models;
+using MiMexicoWeb.Models.ViewModel;
+using System.Diagnostics.Metrics;
+using System.Linq.Expressions;
+using System.Net.Http.Headers;
 
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
     public class OrderController : Controller
     {
-        private readonly ApplicationDBContext _db;
-        public OrderClass currentView = new OrderClass();
 
-        public OrderController(ApplicationDBContext db)
+        private readonly ILogger<ShoppingCartController> _logger;
+        private ShoppingCart shoppingCart;
+        private readonly ApplicationDBContext _db;
+        internal DbSet<Item> dbSet;
+
+        public OrderController(ApplicationDBContext db, ILogger<ShoppingCartController> logger)
         {
             _db = db;
+            _logger = logger;
+            shoppingCart = new ShoppingCart();
+            this.dbSet = _db.Set<Item>();
         }
 
         /*        public IActionResult Order()
@@ -22,35 +36,126 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                     return View(objFromOrderList);
                 }*/
 
-        // GET
+        [HttpGet]
+        public IActionResult AddItem(int itemId)
+        {
+
+            string includedProperties = "Meat,Condiment";
+            IQueryable<Item> query = dbSet;
+            query = query.Where(u => u.id == itemId);
+            foreach (var includedProprty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includedProprty);
+            }
+
+            Item foodItem = query.FirstOrDefault();
+
+            ShoppingCart cartObj = new()
+            {
+                quantity = 1,
+                itemId = itemId,
+                Item = foodItem
+            };
+
+
+            return View(cartObj);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AddItem(ShoppingCart shoppingCart)
+        {
+
+            //string includedProperties = "Meat,Condiment";
+            //IQueryable<Item> query = dbSet;
+            //query = query.Where(u => u.id == id);
+            //foreach (var includedProprty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            //{
+            //    query = query.Include(includedProprty);
+            //}
+
+            //Item foodItem = query.FirstOrDefault();
+
+            //ShoppingCart cartObj = new()
+            //{
+            //    quantity = 1,
+            //    Item = foodItem
+            //};
+
+            _db.ShoppingCarts.Add(shoppingCart);
+            _db.SaveChanges();
+
+            return RedirectToAction("Order", "Order");
+        }
+
+
 
         [HttpGet]
         public IActionResult Order()
         {
-            return View();
+            string includeProperties = "Meat,Condiment";
+            IQueryable<Item> query = dbSet;
+            foreach(var includedProperety in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includedProperety);
+            }
+
+            IEnumerable<Item> itemList = query.ToList();
+
+            // this would return item list view
+
+            //ItemViewModel itemViewModel = new()
+            //{
+            //    ShoppingCart = new(),
+            //    ItemList = _db.Items.Select(i => new SelectListItem()
+            //    {
+            //        Text = i.name,
+            //        Value = i.id.ToString(),
+            //    }),
+            //    MeatList = _db.Meats.Select(i => new SelectListItem()
+            //    {
+            //        Text = i.name,
+            //        Value = i.id.ToString(),
+            //    }),
+            //    CondimentList = _db.Condiments.Select(i => new SelectListItem()
+            //    {
+            //        Text = i.name,
+            //        Value = i.id.ToString()
+            //    })
+
+
+            //};
+
+            //if(id == null || id == 0)
+            //{
+                return View(itemList);
+            //}
+
+            //return View(itemViewModel);
         }
 
-        // POST
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Order(OrderClass obj)
+        public IActionResult Order(ItemViewModel obj)
         {
             if (ModelState.IsValid)
             {
-                _db.SimpleOrderTable.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Landing", "Home");
-            }
-            return View(obj);
+                _db.Add(obj.ShoppingCart);
+               _db.SaveChanges();
+                //TempData["success"] = "Prodcut creating successully";
+                //return RedirectToAction("Landing", "Home");
+           }
+          return View("Order");
 
         }
 
 
         // GET: OrderController
-        public ActionResult Index()
-        {
-            return View(currentView);
-        }
+        //public ActionResult Index()
+        //{
+        //    return View(currentView);
+        //}
 
         public ActionResult AddItem(OrderClass model, string orderItem, int orderQuantity)
         {

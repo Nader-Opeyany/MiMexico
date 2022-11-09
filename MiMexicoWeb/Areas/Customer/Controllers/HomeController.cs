@@ -21,26 +21,26 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             orderClass = new OrderClass();
         }
         // GET
-        [HttpGet]
-        public IActionResult Order()
-        {
-            return View();
-        }
+        //[HttpGet]
+        //public IActionResult Order()
+        //{
+        //    return View();
+        //}
 
-        // POST
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Order(OrderClass obj)
-        {
-            if (ModelState.IsValid)
-            {
-                _db.SimpleOrderTable.Add(obj);
-                _db.SaveChanges();
-                return RedirectToAction("Landing", "Home");
-            }
-            return View(obj);
+        //// POST
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Order(OrderClass obj)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _db.SimpleOrderTable.Add(obj);
+        //        _db.SaveChanges();
+        //        return RedirectToAction("Landing", "Home");
+        //    }
+        //    return View(obj);
 
-        }
+        //}
         public IActionResult Menu()
         {
             return View();
