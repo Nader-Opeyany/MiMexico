@@ -14,15 +14,23 @@
         @*Button Container*@
         <div class="btn-group">
 
-            @using (Html.BeginForm("Menu", "Home"))
+            @*ASP tag helpers, the commeted out code doesn't work*@
+            <div class="col-6 text-end">
+                <a asp-area="Customer" asp-controller="Home" asp-action="Menu" >  <input type="submit" class="btn btn-light" value="Menu" /></a>
+            </div>           
+
+            <div class="col-6 text-end">
+                <a asp-area="Customer" asp-controller="Order" asp-action="Order" >  <input type="submit" class="btn btn-light" value="Order" /></a>
+            </div>
+            @*@using (Html.BeginForm("Menu", "Home"))
             {
-                <input type="submit" class="btn btn-light" value="Menu" />
-            }
-            @using (Html.BeginForm("Order", "Order"))
+            <input type="submit" class="btn btn-light" value="Menu" />
+            }*@
+            @* @using (Html.BeginForm("Order", "Order"))
             {
                  <input type="submit" class="btn btn-light" value="Order" />
 
-            }
+            }*@
 @*                @using (Html.BeginForm("AboutUs", "Home"))
                 {
                     <input type="submit" class="btn btn-light" value="About Us" />
