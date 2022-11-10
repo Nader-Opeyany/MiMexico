@@ -126,12 +126,12 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
             //};
 
-            //if(id == null || id == 0)
-            //{
+            if (itemList == null)
+            {
                 return View(itemList);
-            //}
+            }
 
-            //return View(itemViewModel);
+            return View(itemList);
         }
 
         //POST

@@ -8,7 +8,7 @@ namespace MiMexicoWeb.Models
 {
     public class ShoppingCart
     {
-        [Key]
+
         public int Id { get; set; }
         [Required]
         public int itemId { get; set; }

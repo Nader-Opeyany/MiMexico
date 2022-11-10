@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Hosting;
 using MiMexicoWeb.Data;
 using MiMexicoWeb.Migrations;
@@ -37,6 +39,7 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
 
             ItemViewModel itemViewModel = new()
             {
+                ShoppingCart = new(),
                 Item = new(),
                 MeatList = _db.Meats.Select(i => new SelectListItem()
                 {
@@ -68,14 +71,20 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(ItemViewModel obj)
         {
-            if (ModelState.IsValid)
-            {
-                _db.Add(obj.Item);
-                _db.SaveChanges();
-                TempData["success"] = "Prodcut created Sucessfully";
-                return RedirectToAction("Index");
-            }
-            return RedirectToAction("Create");
+
+            //if (ModelState.IsValid)
+            //{
+            //    _db.Add(obj.Item);
+            //    _db.SaveChanges();
+            //    TempData["success"] = "Prodcut created Sucessfully";
+            //    return RedirectToAction("Index");
+            //}
+
+            _db.Add(obj.Item);
+            _db.SaveChanges();
+            TempData["success"] = "Prodcut created Sucessfully";
+            return RedirectToAction("Index");
+
         }
 
         #region API CALLS
