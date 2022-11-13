@@ -17,8 +17,9 @@ namespace MiMexicoWeb.Models
 
 		public DateTime PaymentDate { get; set; }
 
-		public DateTime PaytmentDueDate { get; set; }
+		//public DateTime PaytmentDueDate { get; set; }
 
+		// traction ID for stripe
 		public string? SessionId { get; set; }
 
 		public string? PaymentIntentId { get; set; }

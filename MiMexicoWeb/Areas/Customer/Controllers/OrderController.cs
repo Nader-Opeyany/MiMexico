@@ -3,14 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.Extensions.Logging.Abstractions;
 using MiMexicoWeb.Areas.Admin.Controllers;
 using MiMexicoWeb.Data;
 using MiMexicoWeb.Migrations;
 using MiMexicoWeb.Models;
 using MiMexicoWeb.Models.ViewModel;
+using NuGet.Protocol.Plugins;
 using System.Diagnostics.Metrics;
 using System.Linq.Expressions;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http;
+
 
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
@@ -20,6 +24,10 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
         private readonly ILogger<ShoppingCartController> _logger;
         private ShoppingCart shoppingCart;
         private readonly ApplicationDBContext _db;
+        private int shoppingCartNumber;
+        //private readonly HttpOptionsAttribute _options;
+        //private Sender thisSender;
+        //private TextWriter textWriter;
         internal DbSet<Item> dbSet;
 
         public OrderController(ApplicationDBContext db, ILogger<ShoppingCartController> logger)
@@ -28,6 +36,9 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             _logger = logger;
             shoppingCart = new ShoppingCart();
             this.dbSet = _db.Set<Item>();
+            //_options = options;
+            //TextWriter textWriter = null;
+
         }
 
         /*        public IActionResult Order()
@@ -36,9 +47,11 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                     return View(objFromOrderList);
                 }*/
 
+
         [HttpGet]
         public IActionResult AddItem(int itemId)
         {
+
 
             string includedProperties = "Meat,Condiment";
             IQueryable<Item> query = dbSet;
@@ -50,37 +63,44 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
             Item foodItem = query.FirstOrDefault();
 
-            ShoppingCart cartObj = new()
+            if (!HttpContext.Request.Cookies.ContainsKey("firstRequest"))
             {
-                quantity = 1,
-                itemId = itemId,
-                Item = foodItem
-            };
+               
+                shoppingCartNumber = setShoppingCartNumber();
+                CookieOptions option = new CookieOptions();
+                option.Expires = DateTime.MinValue;
+               
+                HttpContext.Response.Cookies.Append("firstRequest", shoppingCartNumber.ToString());
 
+                ShoppingCart cartObj = new()
+                {
+                    quantity = 1,
+                    itemId = itemId,
+                    Item = foodItem,
+                    shoppingCartID = shoppingCartNumber
+                };
+                return View(cartObj);
+            }
+            else
+            {
 
-            return View(cartObj);
+                ShoppingCart cartObj = new()
+                {
+                    quantity = 1,
+                    itemId = itemId,
+                    Item = foodItem,
+                    shoppingCartID = shoppingCartNumber
+                };
+                return View(cartObj);
+
+            }
+
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult AddItem(ShoppingCart shoppingCart)
         {
-
-            //string includedProperties = "Meat,Condiment";
-            //IQueryable<Item> query = dbSet;
-            //query = query.Where(u => u.id == id);
-            //foreach (var includedProprty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            //{
-            //    query = query.Include(includedProprty);
-            //}
-
-            //Item foodItem = query.FirstOrDefault();
-
-            //ShoppingCart cartObj = new()
-            //{
-            //    quantity = 1,
-            //    Item = foodItem
-            //};
 
             _db.ShoppingCarts.Add(shoppingCart);
             _db.SaveChanges();
@@ -156,6 +176,12 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
         //{
         //    return View(currentView);
         //}
+
+        public int setShoppingCartNumber()
+        {
+            shoppingCartNumber += 1;
+            return shoppingCartNumber;
+        }
 
         public ActionResult AddItem(OrderClass model, string orderItem, int orderQuantity)
         {

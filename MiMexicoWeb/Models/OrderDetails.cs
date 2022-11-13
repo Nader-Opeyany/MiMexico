@@ -14,8 +14,8 @@ namespace MiMexicoWeb.Models
 		[ValidateNever]
 		public OrderHeader OrderHeader { get; set; }
 		[Required]
-		public int ProductId { get; set; }
-		[ForeignKey("ProdcutId")]
+		public int itemId { get; set; }
+		[ForeignKey("itemId")]
 		[ValidateNever]
 		public Item item { get; set; }
 		public int Count { get; set; }

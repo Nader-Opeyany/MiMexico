@@ -19,5 +19,7 @@ namespace MiMexicoWeb.Models
 
         [NotMapped]
         public double Price { get; set; }
+
+        public int shoppingCartID { get; set; }
     }
 }
