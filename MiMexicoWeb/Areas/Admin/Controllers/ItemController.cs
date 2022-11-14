@@ -69,21 +69,22 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
         // Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ItemViewModel obj)
+        public IActionResult Create(ItemViewModel obj, IFormFile file)
         {
 
-            //if (ModelState.IsValid)
-            //{
-            //    _db.Add(obj.Item);
-            //    _db.SaveChanges();
-            //    TempData["success"] = "Prodcut created Sucessfully";
-            //    return RedirectToAction("Index");
-            //}
+            if (ModelState.IsValid)
+            {
+                _db.Add(obj.Item);
+                _db.SaveChanges();
+                TempData["success"] = "Prodcut created Sucessfully";
+                return RedirectToAction("Index");
+            }
 
-            _db.Add(obj.Item);
-            _db.SaveChanges();
-            TempData["success"] = "Prodcut created Sucessfully";
-            return RedirectToAction("Index");
+            //_db.Add(obj.Item);
+            //_db.SaveChanges();
+            //TempData["success"] = "Prodcut created Sucessfully";
+            //return RedirectToAction("Index");
+            return View(obj);
 
         }
 

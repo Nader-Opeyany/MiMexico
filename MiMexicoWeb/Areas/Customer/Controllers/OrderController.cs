@@ -79,7 +79,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                     Item = foodItem,
                     shoppingCartID = shoppingCartNumber
                 };
-                return View(cartObj);
+                return View(shoppingCart);
             }
             else
             {
