@@ -1,5 +1,5 @@
-﻿@*@model BulkyBook.Models.ViewModels.ShoppingCartVM
-@using Microsoft.Extensions.Options
+﻿@model MiMexicoWeb.Models.ViewModel.ShoppingCartVM
+@*using Microsoft.Extensions.Options
 @inject IOptions<BulkyBook.Utility.StripeSettings> Stripe*@
 
 
@@ -33,8 +33,8 @@
 									<label>Name</label>
 								</div>
 								<div class="col-9">
-@*									<input asp-for="OrderHeader.Name" class="form-control" />
-									<span asp-validation-for="OrderHeader.Name" class="text-danger"></span>*@
+									<input asp-for="OrderHeader.Name" class="form-control" />
+									<span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
 								</div>
 							</div>
 							<div class="row my-1">
@@ -42,8 +42,8 @@
 									<label>Phone</label>
 								</div>
 								<div class="col-9">
-@*									<input asp-for="OrderHeader.PhoneNumber" class="form-control" />
-									<span asp-validation-for="OrderHeader.PhoneNumber" class="text-danger"></span>*@
+									<input asp-for="OrderHeader.PhoneNumber" class="form-control" />
+									<span asp-validation-for="OrderHeader.PhoneNumber" class="text-danger"></span>
 								</div>
 							</div>
 						</div>
@@ -52,19 +52,19 @@
 								<span class="text-info">Order Summary:</span>
 							</h4>
 							<ul class="list-group mb-3">
-@*								@foreach (var details in Model.ListCart)
+								@foreach (var details in Model.ListCart)
 								{
 									<li class="list-group-item d-flex justify-content-between">
 										<div>
-											<h6 class="my-0">@details.Product.Title</h6>
-											<small class="text-muted">Quantity: @details.Count</small>
+											<h6 class="my-0">@details.Item.name</h6>
+											<small class="text-muted">Quantity: @details.quantity</small>
 										</div>
-										<span class="text-muted">@((details.Price * details.Count).ToString("c")) </span>
+										<span class="text-muted">@((details.Price * details.quantity).ToString("c")) </span>
 									</li>
-								}*@
+								}
 								<li class="list-group-item d-flex justify-content-between bg-light">
 									<small class="text-info">Total (USD)</small>
-@*									<strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("c")</strong>*@
+									<strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("c")</strong>
 								</li>
 							</ul>
 						</div>

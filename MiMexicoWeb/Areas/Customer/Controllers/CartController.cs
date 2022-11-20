@@ -24,10 +24,15 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
         }
         public IActionResult Index()
         {
+
+            var cookie = Request.Cookies["firstRequest"];
+            int currentShoppingCartNumber = int.Parse(cookie);
             var includedProperties = "Item";
             IQueryable<ShoppingCart> query = dbSet;
 
-            foreach(var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            query = query.Where(u => u.shoppingCartID == currentShoppingCartNumber);
+
+            foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 query = query.Include(includedProperty);
             }
@@ -60,8 +65,14 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
         public IActionResult Summary()
         {
+
+            var cookie = Request.Cookies["firstRequest"];
+            int currentShoppingCartNumber = int.Parse(cookie);
+
             var includedProperties = "Item";
             IQueryable<ShoppingCart> query = dbSet;
+
+            query = query.Where(u => u.shoppingCartID == currentShoppingCartNumber);
 
             foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
@@ -76,13 +87,15 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                 OrderHeader=new()
             };  
 
+            ShoppingCartVM.OrderHeader.OrderHeaderId = currentShoppingCartNumber;
+
             foreach (var cart in ShoppingCartVM.ListCart)
             {
                 cart.Price = GetPriceBaseonQuantity(cart.Price, cart.quantity);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Item.price * cart.quantity);
             }
 
-            return View();
+            return View(ShoppingCartVM);
         }
 
         public IActionResult Plus(int cartId)
