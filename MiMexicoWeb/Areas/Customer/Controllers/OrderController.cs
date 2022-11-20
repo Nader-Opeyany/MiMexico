@@ -52,7 +52,6 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
         public IActionResult AddItem(int itemId)
         {
 
-
             string includedProperties = "Meat,Condiment";
             IQueryable<Item> query = dbSet;
             query = query.Where(u => u.id == itemId);
@@ -103,6 +102,8 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             }
             else
             {
+                var cookie = Request.Cookies["firstRequest"];
+                int currentShoppingCartNumber = int.Parse(cookie);
                 ItemViewModel IVMObj = new()
                 {
                     ShoppingCart = new()
@@ -110,7 +111,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                         quantity = 1,
                         itemId = itemId,
                         Item = foodItem,
-                        shoppingCartID = shoppingCartNumber
+                        shoppingCartID = currentShoppingCartNumber
                     },
                     MeatList = _db.Meats.Select(i => new SelectListItem()
                     {

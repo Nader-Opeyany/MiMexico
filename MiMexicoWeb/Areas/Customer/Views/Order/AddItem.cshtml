@@ -1,6 +1,7 @@
 ﻿@model MiMexicoWeb.Models.ViewModel.ItemViewModel
 
 <form method="post">
+    <input hidden asp-for="ShoppingCart.shoppingCartID" />
     <input hidden asp-for="ShoppingCart.itemId" />
     <div class="card  container pt-4">
         <div class="card-header bg-primary text-light ml-0  row ">

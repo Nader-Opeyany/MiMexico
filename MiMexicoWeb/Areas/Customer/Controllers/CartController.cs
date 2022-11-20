@@ -44,14 +44,15 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             ShoppingCartVM = new ShoppingCartVM()
             {
                 ListCart = ShoppingCartList.ToList(),
-                MeatList = Meats.ToList()
+                MeatList = Meats.ToList(),
+                OrderHeader = new()
 
             };
             
             foreach(var cart in ShoppingCartVM.ListCart)
             {
                 cart.Price = GetPriceBaseonQuantity(cart.Price, cart.quantity);
-                ShoppingCartVM.CartTotal += (cart.Item.price * cart.quantity);
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Item.price * cart.quantity);
             }
 
             return View(ShoppingCartVM);
@@ -59,26 +60,27 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
         public IActionResult Summary()
         {
-            //var includedProperties = "Item";
-            //IQueryable<ShoppingCart> query = dbSet;
+            var includedProperties = "Item";
+            IQueryable<ShoppingCart> query = dbSet;
 
-            //foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            //{
-            //    query = query.Include(includedProperty);
-            //}
+            foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includedProperty);
+            }
 
-            //IEnumerable<ShoppingCart> ShoppingCartList = query.ToList();
+            IEnumerable<ShoppingCart> ShoppingCartList = query.ToList();
 
-            //ShoppingCartVM = new ShoppingCartVM()
-            //{
-            //    ListCart = ShoppingCartList.ToList(),
-            //};
+            ShoppingCartVM = new ShoppingCartVM()
+            {
+                ListCart = ShoppingCartList.ToList(),
+                OrderHeader=new()
+            };  
 
-            //foreach (var cart in ShoppingCartVM.ListCart)
-            //{
-            //    cart.Price = GetPriceBaseonQuantity(cart.Price, cart.quantity);
-            //    ShoppingCartVM.CartTotal += (cart.Item.price * cart.quantity);
-            //}
+            foreach (var cart in ShoppingCartVM.ListCart)
+            {
+                cart.Price = GetPriceBaseonQuantity(cart.Price, cart.quantity);
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Item.price * cart.quantity);
+            }
 
             return View();
         }

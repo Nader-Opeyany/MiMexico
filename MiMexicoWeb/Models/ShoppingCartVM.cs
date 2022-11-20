@@ -8,6 +8,6 @@ namespace MiMexicoWeb.Models.ViewModel
 
 		public IEnumerable<Meat> MeatList { get; set; }
 
-		public double CartTotal { get; set; }
+		public OrderHeader OrderHeader { get; set; }
 	}
 }
