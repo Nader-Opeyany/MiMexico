@@ -38,10 +38,15 @@
                             </div>*@
                         </div>
                         <div class="row pl-2">
-                            <p class="text-secondary">@Html.Raw(Model.ShoppingCart.Item.description)</p>
-                            <select asp-for="ShoppingCart.meatId" asp-items="@Model.MeatList" class="form-select">
-                                <option diabled selected>--Select Category--</option>
-                            </select>
+                            @{
+                                if (Model.ShoppingCart.Item.Beverage == false)
+                                {
+                                    <p class="text-secondary">@Html.Raw(Model.ShoppingCart.Item.description)</p>
+                                    <select asp-for="ShoppingCart.meatId" asp-items="@Model.MeatList" class="form-select">
+                                        <option diabled selected>--Select Category--</option>
+                                    </select>
+                                }
+                            }
                         </div>
                         <div class="row pl-2">
                             <div class="col-2 text-primary"><h4>Quantity</h4></div>

@@ -39,6 +39,11 @@
             </select>
             <span asp-validation-for="Item.condimentId" class="text-danger"></span>
         </div>
+        <div class="mb-3">
+            <label asp-for="Item.Beverage"></label><br />
+            <input type="radio" asp-for=Item.Beverage value="True" />Beverage<br />
+            <input type ="radio" asp-for="Item.Beverage" value="False" />Food Item<br />
+        </div>
         <button type="submit" class="btn btn-primary" style="width: 150px">Create</button>
 
         <div class="col-12">
