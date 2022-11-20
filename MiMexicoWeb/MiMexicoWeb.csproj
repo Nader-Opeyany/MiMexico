@@ -66,6 +66,7 @@
     <Folder Include="Areas\Customer\Data\" />
     <Folder Include="Controllers\" />
     <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\images\Items\" />
   </ItemGroup>
 
 </Project>
