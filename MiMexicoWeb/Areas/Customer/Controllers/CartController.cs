@@ -13,11 +13,14 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
         private readonly ApplicationDBContext _db;
         public ShoppingCartVM ShoppingCartVM;
         internal DbSet<ShoppingCart> dbSet;
+        internal DbSet<Meat> dbSetMeat;
+
 
         public CartController(ApplicationDBContext db)
         {
             _db = db;
             this.dbSet = _db.Set<ShoppingCart>();
+            this.dbSetMeat = _db.Set<Meat>();
         }
         public IActionResult Index()
         {
@@ -31,9 +34,18 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
             IEnumerable<ShoppingCart> ShoppingCartList = query.ToList();
 
+
+            IQueryable<Meat> queryMeat = dbSetMeat;
+            
+
+            IEnumerable<Meat> Meats = queryMeat.ToList();
+
+
             ShoppingCartVM = new ShoppingCartVM()
             {
                 ListCart = ShoppingCartList.ToList(),
+                MeatList = Meats.ToList()
+
             };
             
             foreach(var cart in ShoppingCartVM.ListCart)
