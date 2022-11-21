@@ -9,8 +9,8 @@
 @*    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MiMexicoWeb.styles.css" asp-append-version="true" />
-	<link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
-	<link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+	<link href="~/font-awesome/css/all.css" rel="stylesheet" />
+	<link href="~/font-awesome/css/all.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -64,6 +64,7 @@
                 </div>
             </div>
         </nav>
+        @*
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -82,12 +83,12 @@
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu" id="btnChoiceOfMeats">Choice of Meats</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Submit"><i class="fa-solid fa-cart-shopping"></i></a>
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i></a>
                         </li>
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> *@
     </header>
     
         <div class="container">
@@ -150,6 +151,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXcUWLJbW7CjaKj897e2x4B1KJs65AZVk"></script>
     <script>
+        @*
         const btnDrinks = document.getElementById("btnDrinks");
         btnDrinks.addEventListener("click", function (e) {
             e.preventDefault();
@@ -167,7 +169,7 @@
             g.preventDefault();
             window.scrollTo(0, 1050);
         });
-
+        *@
         $(document).ready(function () {
             $("#btn").click(function () {
                 var geocoder = new google.maps.Geocoder();
