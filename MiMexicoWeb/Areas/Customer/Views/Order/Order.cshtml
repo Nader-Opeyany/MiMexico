@@ -7,9 +7,15 @@
 }
 @*<h1>@ViewData["Title"]</h1>*@
 
+@*SMS Message Test*@
+<a asp-controller="Order" asp-area="Customer" asp-action="SMSMessage" class="btn btn-secondary" style="width:150px">
+        Send
+</a>
+
 <a asp-area="Customer" asp-controller="Cart" asp-action="Index" style=" 
     right: 100px"
 class="btn btn-primary">Checkout</a>
+
 <div class="row pb-3">
     @{
         Item[] itemArray = new Item[100];
@@ -1657,4 +1663,4 @@ class="btn btn-primary">Checkout</a>
         </div>
     </div>*@
 
-</div>
+@*</div>*@
