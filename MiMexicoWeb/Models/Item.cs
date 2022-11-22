@@ -28,5 +28,10 @@ namespace MiMexicoWeb.Models
         [ValidateNever]
 
         public Condiment Condiment { get; set; }
+
+        public Boolean Beverage { get; set; }
+        [ValidateNever]
+        public string ImageUrl { get; set; }
+       
     }
 }

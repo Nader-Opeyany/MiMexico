@@ -20,6 +20,7 @@ namespace MiMexicoWeb.Models.ViewModel
         [ValidateNever]
 
         public ShoppingCart ShoppingCart { get; set; }
+       
 
   
     }

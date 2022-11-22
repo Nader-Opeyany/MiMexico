@@ -11,20 +11,23 @@ using MiMexicoWeb.Models.ViewModel;
 using System.Linq.Expressions;
 
 namespace MiMexicoWeb.Areas.Admin.Controllers
-{
+{ 
     public class ItemController : Controller
     {
         private readonly ILogger<ItemController> _logger;
         private Item itemClass;
         private readonly ApplicationDBContext _db;
+        private readonly IWebHostEnvironment _hostEnvironment;
         internal DbSet<Item> dbSet;
 
-        public ItemController(ApplicationDBContext db, ILogger<ItemController> logger)
+
+        public ItemController(ApplicationDBContext db, ILogger<ItemController> logger, IWebHostEnvironment hostEnvironment)
         {
             _db = db;
             _logger = logger;
             itemClass = new Item();
-            this.dbSet = _db.Set<Item>(); 
+            this.dbSet = _db.Set<Item>();
+            _hostEnvironment = hostEnvironment;
         }
 
         public IActionResult Index()
@@ -39,7 +42,7 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
 
             ItemViewModel itemViewModel = new()
             {
-                ShoppingCart = new(),
+                
                 Item = new(),
                 MeatList = _db.Meats.Select(i => new SelectListItem()
                 {
@@ -69,45 +72,70 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
         // Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(ItemViewModel obj)
+        public IActionResult Create(ItemViewModel obj, IFormFile file)
         {
 
-            //if (ModelState.IsValid)
-            //{
-            //    _db.Add(obj.Item);
-            //    _db.SaveChanges();
-            //    TempData["success"] = "Prodcut created Sucessfully";
-            //    return RedirectToAction("Index");
-            //}
+            if (ModelState.IsValid)
+            {
+                string wwwRoothPath = _hostEnvironment.WebRootPath;
+                if (file != null)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(wwwRoothPath, @"images\products");
+                    var extension = Path.GetExtension(file.FileName);
 
-            _db.Add(obj.Item);
-            _db.SaveChanges();
-            TempData["success"] = "Prodcut created Sucessfully";
-            return RedirectToAction("Index");
+                    if (obj.Item.ImageUrl != null)
+                    {
+                        var oldImagePath = Path.Combine(wwwRoothPath, obj.Item.ImageUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(oldImagePath))
+                        {
+                            System.IO.File.Delete(oldImagePath);
+                        }
+                    }
+
+                    using (var fileSteams = new FileStream(Path.Combine(uploads, fileName + extension), FileMode.Create))
+                    {
+                        file.CopyTo(fileSteams);
+                    }
+                    obj.Item.ImageUrl = @"\images\items" + fileName + extension;
+                }
+                if (obj.Item.id == 0)
+                {
+                    _db.Add(obj.Item);
+                }
+                else
+                {
+                    _db.Update(obj.Item);
+                }
+                _db.SaveChanges();
+                TempData["success"] = "Prodcut created Sucessfully";
+                return RedirectToAction("Index");
+            }
+
+            //_db.Add(obj.Item);
+            //_db.SaveChanges();
+            //TempData["success"] = "Prodcut created Sucessfully";
+            //return RedirectToAction("Index");
+            return View(obj);
 
         }
 
         #region API CALLS
         [HttpGet]
-
         public IActionResult GetAll()
         {
-
+            string includedProperties = "Meat,Condiment";
             IQueryable<Item> query = dbSet;
-
-            var includedProperties = "Meat";
-            foreach(var includeProp in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                query = query.Include(includeProp);
+                query = query.Include(includedProperty);
             }
-
-            var productList = query.ToList();
-
-            return Json(new { data = productList });
+            var itemList = query.ToList();
+            return Json(new { data = itemList });
         }
-
-
-
         #endregion
+
     }
 }
+
+

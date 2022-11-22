@@ -7,6 +7,8 @@ namespace MiMexicoWeb.Models
 	{
 		public int Id { get; set; }
 
+		public int OrderHeaderId { get; set; }
+
 		public DataSetDateTime OrderDate { get; set; }
 
 		public double OrderTotal { get; set; }

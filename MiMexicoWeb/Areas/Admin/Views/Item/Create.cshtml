@@ -16,10 +16,14 @@
             <textarea asp-for="Item.description" rows="3" class="form-control"></textarea>
             <span asp-validation-for="Item.description" class="text-danger"></span>
         </div>
-        <div class="mb-3 col-6">
+        <div class="mb-3">
             <label asp-for="Item.price"></label>
             <input asp-for="Item.price" class="form-control" />
             <span asp-validation-for="Item.price" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item.ImageUrl"></label>
+            <input type="file" id="uploadBox" name="file" class="form-control" />
         </div>
         <div class="mb-3">
             <label asp-for="Item.meatId"></label>
@@ -34,6 +38,11 @@
                 <option diabled selected>--Select Category--</option>
             </select>
             <span asp-validation-for="Item.condimentId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Item.Beverage"></label><br />
+            <input type="radio" asp-for=Item.Beverage value="True" />Beverage<br />
+            <input type ="radio" asp-for="Item.Beverage" value="False" />Food Item<br />
         </div>
         <button type="submit" class="btn btn-primary" style="width: 150px">Create</button>
 

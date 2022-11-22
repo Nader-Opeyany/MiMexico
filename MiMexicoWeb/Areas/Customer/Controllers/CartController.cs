@@ -13,18 +13,68 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
         private readonly ApplicationDBContext _db;
         public ShoppingCartVM ShoppingCartVM;
         internal DbSet<ShoppingCart> dbSet;
+        internal DbSet<Meat> dbSetMeat;
+
 
         public CartController(ApplicationDBContext db)
         {
             _db = db;
             this.dbSet = _db.Set<ShoppingCart>();
+            this.dbSetMeat = _db.Set<Meat>();
         }
         public IActionResult Index()
         {
+
+            var cookie = Request.Cookies["firstRequest"];
+            int currentShoppingCartNumber = int.Parse(cookie);
             var includedProperties = "Item";
             IQueryable<ShoppingCart> query = dbSet;
 
-            foreach(var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            query = query.Where(u => u.shoppingCartID == currentShoppingCartNumber);
+
+            foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includedProperty);
+            }
+
+            IEnumerable<ShoppingCart> ShoppingCartList = query.ToList();
+
+
+            IQueryable<Meat> queryMeat = dbSetMeat;
+            
+
+            IEnumerable<Meat> Meats = queryMeat.ToList();
+
+
+            ShoppingCartVM = new ShoppingCartVM()
+            {
+                ListCart = ShoppingCartList.ToList(),
+                MeatList = Meats.ToList(),
+                OrderHeader = new()
+
+            };
+            
+            foreach(var cart in ShoppingCartVM.ListCart)
+            {
+                cart.Price = GetPriceBaseonQuantity(cart.Price, cart.quantity);
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Item.price * cart.quantity);
+            }
+
+            return View(ShoppingCartVM);
+        }
+
+        public IActionResult Summary()
+        {
+
+            var cookie = Request.Cookies["firstRequest"];
+            int currentShoppingCartNumber = int.Parse(cookie);
+
+            var includedProperties = "Item";
+            IQueryable<ShoppingCart> query = dbSet;
+
+            query = query.Where(u => u.shoppingCartID == currentShoppingCartNumber);
+
+            foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 query = query.Include(includedProperty);
             }
@@ -34,41 +84,18 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             ShoppingCartVM = new ShoppingCartVM()
             {
                 ListCart = ShoppingCartList.ToList(),
-            };
-            
-            foreach(var cart in ShoppingCartVM.ListCart)
+                OrderHeader=new()
+            };  
+
+            ShoppingCartVM.OrderHeader.OrderHeaderId = currentShoppingCartNumber;
+
+            foreach (var cart in ShoppingCartVM.ListCart)
             {
                 cart.Price = GetPriceBaseonQuantity(cart.Price, cart.quantity);
-                ShoppingCartVM.CartTotal += (cart.Item.price * cart.quantity);
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Item.price * cart.quantity);
             }
 
             return View(ShoppingCartVM);
-        }
-
-        public IActionResult Summary()
-        {
-            //var includedProperties = "Item";
-            //IQueryable<ShoppingCart> query = dbSet;
-
-            //foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-            //{
-            //    query = query.Include(includedProperty);
-            //}
-
-            //IEnumerable<ShoppingCart> ShoppingCartList = query.ToList();
-
-            //ShoppingCartVM = new ShoppingCartVM()
-            //{
-            //    ListCart = ShoppingCartList.ToList(),
-            //};
-
-            //foreach (var cart in ShoppingCartVM.ListCart)
-            //{
-            //    cart.Price = GetPriceBaseonQuantity(cart.Price, cart.quantity);
-            //    ShoppingCartVM.CartTotal += (cart.Item.price * cart.quantity);
-            //}
-
-            return View();
         }
 
         public IActionResult Plus(int cartId)
