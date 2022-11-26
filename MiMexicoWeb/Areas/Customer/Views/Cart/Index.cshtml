@@ -30,6 +30,10 @@
 							
 							@foreach(var m in Model.MeatList)
 							{
+								if(item.Item.Beverage == true)
+								{
+									break;
+								}
 								if(item.meatId == m.id)
 								{
 									<p><small>@Html.Raw(m.name)</small></p>

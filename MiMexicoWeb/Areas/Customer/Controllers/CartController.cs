@@ -4,6 +4,7 @@ using MiMexicoWeb.Data;
 using MiMexicoWeb.Models;
 using MiMexicoWeb.Models.ViewModel;
 using System.Drawing.Text;
+using System.Linq;
 
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
@@ -38,7 +39,62 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             }
 
             IEnumerable<ShoppingCart> ShoppingCartList = query.ToList();
+            int length = ShoppingCartList.Count();
+            ShoppingCart[] shoppingCarts = new ShoppingCart[length];
+            ShoppingCart blankCart = new ShoppingCart();
+            blankCart.Id = -1;
+            int i = 0;
+            int tempId = -1;
+            foreach(var c in ShoppingCartList)
+            {
+                shoppingCarts[i] = c;
+                i++;
+            }
+            foreach (var c in ShoppingCartList)
+            {
+                for (i = 0; i < length; i++)
+                {
+                    if ((c.Id != -1 && shoppingCarts[i].Id != -1) && (c.Item.name == shoppingCarts[i].Item.name) && c.meatId == shoppingCarts[i].meatId &&(c.Id != shoppingCarts[i].Id))
+                    {
+                        int j = 0;
+                        tempId = shoppingCarts[i].Id;
 
+                        while(j < length)
+                        {
+                            if(c.Id == shoppingCarts[j].Id)
+                            {
+                                shoppingCarts[j] = blankCart;
+                                
+                                break;
+                            }
+                            j++;
+                        }
+                            
+                        
+                        query = query.Where(x => x.Id == c.Id);
+                        var cart = query.FirstOrDefault();
+                        if (cart != null)
+                        {
+                            cart.quantity += shoppingCarts[i].quantity;
+                            shoppingCarts[i] = blankCart;
+                            _db.SaveChanges();
+
+                            Remove(tempId);
+
+                        } 
+                    }
+
+                }
+            }
+            //Sort of works but not really
+            IQueryable<ShoppingCart> secondQuery = dbSet;
+            secondQuery = secondQuery.Where(u => u.shoppingCartID == currentShoppingCartNumber);
+
+            foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                secondQuery = secondQuery.Include(includedProperty);
+            }
+            ShoppingCartList = secondQuery.ToList();
 
             IQueryable<Meat> queryMeat = dbSetMeat;
             
@@ -48,12 +104,12 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
             ShoppingCartVM = new ShoppingCartVM()
             {
-                ListCart = ShoppingCartList.ToList(),
+                ListCart = ShoppingCartList,
                 MeatList = Meats.ToList(),
                 OrderHeader = new()
 
             };
-            
+
             foreach(var cart in ShoppingCartVM.ListCart)
             {
                 cart.Price = GetPriceBaseonQuantity(cart.Price, cart.quantity);
