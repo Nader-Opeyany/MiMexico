@@ -15,6 +15,8 @@ namespace MiMexicoWeb.Models
         [Range(1, 100)]
         public double price { get; set; }
 
+        [Required]
+        [Display(Name = "Meat")]
         public int meatId { get; set; }
 
         [ForeignKey("meatId")]
@@ -22,6 +24,8 @@ namespace MiMexicoWeb.Models
 
         public Meat Meat { get; set; }
 
+        [Required]
+        [Display(Name="Condiment")]
         public int condimentId { get; set; }
 
         [ForeignKey("condimentId")]
