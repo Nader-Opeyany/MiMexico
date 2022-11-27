@@ -14,15 +14,15 @@
         @*Button Container*@
         <div class="btn-group">
 
-            @using (Html.BeginForm("Menu", "Home"))
+            @using (Html.BeginForm("Order", "Order"))
             {
-                <input type="submit" class="btn btn-light" value="Menu" />
+                <input type="submit" class="btn btn-light" value="Order" />
             }
-            @using (Html.BeginForm("Order", "Home"))
+@*            @using (Html.BeginForm("Order", "Home"))
             {
                  <input type="submit" class="btn btn-light" value="Order" />
 
-            }
+            }*@
 @*                @using (Html.BeginForm("AboutUs", "Home"))
                 {
                     <input type="submit" class="btn btn-light" value="About Us" />

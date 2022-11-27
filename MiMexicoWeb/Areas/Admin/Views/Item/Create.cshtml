@@ -3,6 +3,7 @@
 <form method="post" asp-action="Create" enctype="multipart/form-data">
     <div calss="border p-3 mt-4">
         <div class="row pb-2">
+            <h2 class="text-primary">@(Model.Item.id!=0?"Update" : "Create")</h2>
             <hr />
         </div>
         @* <div asp-validation-summary="All"></div>*@
@@ -44,7 +45,7 @@
             <input type="radio" asp-for=Item.Beverage value="True" />Beverage<br />
             <input type ="radio" asp-for="Item.Beverage" value="False" />Food Item<br />
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 150px">Create</button>
+@*        <button type="submit" class="btn btn-primary" style="width: 150px">Create</button>*@
 
         <div class="col-12">
             @if (Model.Item.id != 0)
@@ -61,3 +62,23 @@
         </div>
     </div>
 </form>
+
+@section Scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        function ValidateInput(){
+            if(document.getElementById("uploadBox").value=="")
+            {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please upload an image!',
+                });
+                return false;
+            }
+            return true;
+        }
+    </script>
+}

@@ -119,6 +119,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             return View(ShoppingCartVM);
         }
 
+
         public IActionResult Summary()
         {
 

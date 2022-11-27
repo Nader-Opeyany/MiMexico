@@ -11,7 +11,7 @@ using MiMexicoWeb.Models.ViewModel;
 using System.Linq.Expressions;
 
 namespace MiMexicoWeb.Areas.Admin.Controllers
-{ 
+{
     public class ItemController : Controller
     {
         private readonly ILogger<ItemController> _logger;
@@ -58,15 +58,17 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
 
             };
 
-            if (id == null || id == 0)
+            if (id == 0 || id == null)
             {
                 return View(itemViewModel);
             }
             else
             {
-
+                IQueryable<Item> query = dbSet;
+                query = query.Where(u => u.id == id);
+                itemViewModel.Item = query.FirstOrDefault();
+                return View(itemViewModel);
             }
-            return View(itemViewModel);
         }
 
         // Post
@@ -81,7 +83,7 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
                 if (file != null)
                 {
                     string fileName = Guid.NewGuid().ToString();
-                    var uploads = Path.Combine(wwwRoothPath, @"images\products");
+                    var uploads = Path.Combine(wwwRoothPath, @"images\Items");
                     var extension = Path.GetExtension(file.FileName);
 
                     if (obj.Item.ImageUrl != null)
@@ -133,6 +135,29 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
             var itemList = query.ToList();
             return Json(new { data = itemList });
         }
+
+        //POST
+        [HttpDelete]
+        public IActionResult Delete(int? id)
+        {
+            var obj = _db.Items.FirstOrDefault(u => u.id == id);
+            if(obj == null)
+            {
+                return Json(new { success = false, message = "Error while deleting" });
+            }
+
+            var oldImagePath = Path.Combine(_hostEnvironment.WebRootPath, obj.ImageUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
+
+            _db.Items.Remove(obj);
+            _db.SaveChanges();
+            return Json(new { success = true, message = "Delete Successful" });
+        }
+
+
         #endregion
 
     }
