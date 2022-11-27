@@ -59,7 +59,7 @@
 											<h6 class="my-0">@details.Item.name</h6>
 											<small class="text-muted">Quantity: @details.quantity</small>
 										</div>
-										<span class="text-muted">@((details.Price * details.quantity).ToString("c")) </span>
+										<span class="text-muted">@((details.Item.price * details.quantity).ToString("c")) </span>
 									</li>
 								}
 								<li class="list-group-item d-flex justify-content-between bg-light">
