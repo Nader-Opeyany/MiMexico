@@ -81,7 +81,7 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            _db.Condiments.Remove(obj);
+            dbSet.Remove(obj);
             _db.SaveChanges();
             TempData["success"] = "Item deleted sucessfuly";
             return RedirectToAction("Index");
