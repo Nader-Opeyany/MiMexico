@@ -176,12 +176,39 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                 query = query.Include(includedProperty);
             }
             IEnumerable<ShoppingCart> ShoppingCartList = query.ToList();
+            
+            viewModel.ListCart = ShoppingCartList;
+
             foreach(var item in ShoppingCartList)
             {
                 item.Price = GetPriceBaseonQuantity(item.Price, item.quantity);
                 orderTotal += (item.Item.price * item.quantity);
             }
+
+            if(viewModel.OrderHeader.Name == null && viewModel.OrderHeader.PhoneNumber == null)
+            {
+                ViewBag.Message = "Please Provide Your Name And Phone Number";
+                return View(viewModel);
+            }
+            if (viewModel.OrderHeader.Name == null)
+            {
+                ViewBag.Message = "Please Provide Your Name";
+                return View(viewModel);
+            }
+            if (viewModel.OrderHeader.PhoneNumber == null)
+            {
+                ViewBag.Message = "Please Provide Your Phone Number";
+                return View(viewModel);
+            }
+            
+
             viewModel.OrderHeader.PhoneNumber = new string(viewModel.OrderHeader.PhoneNumber.Where(c => char.IsDigit(c)).ToArray());
+            
+            if (viewModel.OrderHeader.PhoneNumber.Length != 10)
+            {
+                ViewBag.Message = "Invalid Phone Number. Please Insert Your Phone Number As Either (916)123-4567 Or 9161234567";
+                return View(viewModel);
+            }
 
             OrderHeader = new OrderHeader()
             {
@@ -201,13 +228,14 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                     itemId = cart.Item.id,
                     item = cart.Item,
                     Count = cart.quantity,
-                    Price = GetPriceBaseonQuantity(cart.Item.price, cart.quantity)
+                    Price = GetPriceBaseonQuantity(cart.Item.price, cart.quantity),
+                    meatId = cart.meatId
                 };
                 _db.Add(OrderDetail);
                 _db.SaveChanges();
             }
 
-            return RedirectToAction("Summary");
+            return View(viewModel);
         }
 
         public IActionResult Plus(int cartId)
