@@ -18,6 +18,7 @@ namespace MiMexicoWeb.Models
 		[ForeignKey("itemId")]
 		[ValidateNever]
 		public Item item { get; set; }
+		public int meatId { get; set; }
 		public int Count { get; set; }
 		public double Price { get; set; }
 	}

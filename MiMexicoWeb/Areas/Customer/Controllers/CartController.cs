@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiMexicoWeb.Data;
 using MiMexicoWeb.Models;
 using MiMexicoWeb.Models.ViewModel;
 using System.Drawing.Text;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
@@ -13,8 +15,12 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
     {
         private readonly ApplicationDBContext _db;
         public ShoppingCartVM ShoppingCartVM;
+        public OrderDetails OrderDetail;
+        public OrderHeader OrderHeader;
         internal DbSet<ShoppingCart> dbSet;
         internal DbSet<Meat> dbSetMeat;
+        internal DbSet<OrderHeader> dbSetOrderHeader;
+        internal DbSet<OrderDetails> dbSetOrderDetails;
 
 
         public CartController(ApplicationDBContext db)
@@ -22,6 +28,8 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             _db = db;
             this.dbSet = _db.Set<ShoppingCart>();
             this.dbSetMeat = _db.Set<Meat>();
+            this.dbSetOrderHeader = _db.Set<OrderHeader>();
+            this.dbSetOrderDetails = _db.Set<OrderDetails>();
         }
         public IActionResult Index()
         {
@@ -30,6 +38,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             int currentShoppingCartNumber = int.Parse(cookie);
             var includedProperties = "Item";
             IQueryable<ShoppingCart> query = dbSet;
+            IQueryable<ShoppingCart> tempQuery = dbSet;
 
             query = query.Where(u => u.shoppingCartID == currentShoppingCartNumber);
 
@@ -71,17 +80,15 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                         }
                             
                         
-                        query = query.Where(x => x.Id == c.Id);
-                        var cart = query.FirstOrDefault();
+                        tempQuery = query.Where(x => x.Id == c.Id);
+                        var cart = tempQuery.FirstOrDefault();
                         if (cart != null)
                         {
                             cart.quantity += shoppingCarts[i].quantity;
                             shoppingCarts[i] = blankCart;
                             _db.SaveChanges();
-
-                            Remove(tempId);
-
-                        } 
+                        }
+                        Remove(tempId);
                     }
 
                 }
@@ -118,8 +125,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
             return View(ShoppingCartVM);
         }
-
-
+        [HttpGet]
         public IActionResult Summary()
         {
 
@@ -153,6 +159,83 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             }
 
             return View(ShoppingCartVM);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Summary(ShoppingCartVM viewModel)
+        {
+            var cookie = Request.Cookies["firstRequest"];
+            int currentShoppingCartNumber = int.Parse(cookie);
+            double orderTotal = 0;
+            IQueryable<ShoppingCart> query = dbSet;
+            var includedProperties = "Item";
+            query = query.Where(u => u.shoppingCartID == currentShoppingCartNumber);
+
+            foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includedProperty);
+            }
+            IEnumerable<ShoppingCart> ShoppingCartList = query.ToList();
+            
+            viewModel.ListCart = ShoppingCartList;
+
+            foreach(var item in ShoppingCartList)
+            {
+                item.Price = GetPriceBaseonQuantity(item.Price, item.quantity);
+                orderTotal += (item.Item.price * item.quantity);
+            }
+
+            if(viewModel.OrderHeader.Name == null && viewModel.OrderHeader.PhoneNumber == null)
+            {
+                ViewBag.Message = "Please Provide Your Name And Phone Number";
+                return View(viewModel);
+            }
+            if (viewModel.OrderHeader.Name == null)
+            {
+                ViewBag.Message = "Please Provide Your Name";
+                return View(viewModel);
+            }
+            if (viewModel.OrderHeader.PhoneNumber == null)
+            {
+                ViewBag.Message = "Please Provide Your Phone Number";
+                return View(viewModel);
+            }
+            
+
+            viewModel.OrderHeader.PhoneNumber = new string(viewModel.OrderHeader.PhoneNumber.Where(c => char.IsDigit(c)).ToArray());
+            
+            if (viewModel.OrderHeader.PhoneNumber.Length != 10)
+            {
+                ViewBag.Message = "Invalid Phone Number. Please Insert Your Phone Number As Either (916)123-4567 Or 9161234567";
+                return View(viewModel);
+            }
+
+            OrderHeader = new OrderHeader()
+            {
+                OrderHeaderId = currentShoppingCartNumber,
+                Name = viewModel.OrderHeader.Name,
+                PhoneNumber = viewModel.OrderHeader.PhoneNumber,
+                OrderTotal = orderTotal
+            };
+            _db.Add(OrderHeader);
+            _db.SaveChanges();
+
+            foreach(var cart in ShoppingCartList)
+            {
+                OrderDetail = new OrderDetails()
+                {
+                    OrderId = OrderHeader.Id,
+                    itemId = cart.Item.id,
+                    item = cart.Item,
+                    Count = cart.quantity,
+                    Price = GetPriceBaseonQuantity(cart.Item.price, cart.quantity),
+                    meatId = cart.meatId
+                };
+                _db.Add(OrderDetail);
+                _db.SaveChanges();
+            }
+
+            return View(viewModel);
         }
 
         public IActionResult Plus(int cartId)
