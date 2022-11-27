@@ -99,7 +99,7 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
                     {
                         file.CopyTo(fileSteams);
                     }
-                    obj.Item.ImageUrl = @"\images\items" + fileName + extension;
+                    obj.Item.ImageUrl = @"\images\items\" + fileName + extension;
                 }
                 if (obj.Item.id == 0)
                 {
