@@ -4,6 +4,7 @@ using MiMexicoWeb.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MiMexicoWeb.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20221129203431_AddNewOrderHeader")]
+    partial class AddNewOrderHeader
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +38,7 @@ namespace MiMexicoWeb.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Condiments", (string)null);
+                    b.ToTable("Condiments");
                 });
 
             modelBuilder.Entity("MiMexicoWeb.Models.Item", b =>
@@ -77,7 +79,7 @@ namespace MiMexicoWeb.Migrations
 
                     b.HasIndex("meatId");
 
-                    b.ToTable("Items", (string)null);
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("MiMexicoWeb.Models.Meat", b =>
@@ -94,7 +96,7 @@ namespace MiMexicoWeb.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Meats", (string)null);
+                    b.ToTable("Meats");
                 });
 
             modelBuilder.Entity("MiMexicoWeb.Models.OrderClass", b =>
@@ -129,7 +131,7 @@ namespace MiMexicoWeb.Migrations
 
                     b.HasKey("orderId");
 
-                    b.ToTable("SimpleOrderTable", (string)null);
+                    b.ToTable("SimpleOrderTable");
                 });
 
             modelBuilder.Entity("MiMexicoWeb.Models.OrderDetails", b =>
@@ -161,7 +163,7 @@ namespace MiMexicoWeb.Migrations
 
                     b.HasIndex("itemId");
 
-                    b.ToTable("OrderDetails", (string)null);
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("MiMexicoWeb.Models.OrderHeader", b =>
@@ -206,7 +208,7 @@ namespace MiMexicoWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderHeaders", (string)null);
+                    b.ToTable("OrderHeaders");
                 });
 
             modelBuilder.Entity("MiMexicoWeb.Models.ShoppingCart", b =>
@@ -233,7 +235,7 @@ namespace MiMexicoWeb.Migrations
 
                     b.HasIndex("itemId");
 
-                    b.ToTable("ShoppingCarts", (string)null);
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("MiMexicoWeb.Models.Item", b =>
