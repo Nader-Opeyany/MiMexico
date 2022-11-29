@@ -15,6 +15,13 @@ using System.Linq.Expressions;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 
+//SMS Imports
+using System;
+using System.Collections.Generic;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
+
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
     public class OrderController : Controller
@@ -263,6 +270,28 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             model.specialInstructions = instruction;
 
             return View(model);
+        }
+
+        //Twilio SMS method
+        public IActionResult SMSMessage()
+        {
+            // Find your Account SID and Auth Token at twilio.com/console
+            // and set the environment variables. See http://twil.io/secure
+            string accountSid = "AC824ff7cac7a8d45d476474f86f5eab20";
+            string authToken = "25965ce9b53f037f5cbd11c09368f243";
+
+            TwilioClient.Init(accountSid, authToken);
+
+            var message = MessageResource.Create(
+                body: "Your meal is ready!",
+                from: new Twilio.Types.PhoneNumber("+18304452606"),
+                to: new Twilio.Types.PhoneNumber("+1(xxx)xxx-xxxx")
+            );
+
+            Console.WriteLine(message.Sid);
+
+            return RedirectToAction("Order", "Order");
+
         }
     }
 }
