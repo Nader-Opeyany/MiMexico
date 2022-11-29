@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using MiMexicoWeb.Data;
 using MiMexicoWeb.Models;
 using MiMexicoWeb.Models.ViewModel;
+using Stripe;
+using Stripe.Checkout;
 using System.Drawing.Text;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -180,7 +183,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                 query = query.Include(includedProperty);
             }
             IEnumerable<ShoppingCart> ShoppingCartList = query.ToList();
-            
+
             viewModel.ListCart = ShoppingCartList;
 
 
@@ -191,13 +194,13 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             //viewModel.OrderHeader.OrderDate = DateTime.Now;
             viewModel.OrderHeader.OrderHeaderId = currentShoppingCartNumber;
 
-            foreach(var item in ShoppingCartList)
+            foreach (var item in ShoppingCartList)
             {
                 item.Price = GetPriceBaseonQuantity(item.Price, item.quantity);
                 viewModel.OrderHeader.OrderTotal += (item.Item.price * item.quantity);
             }
 
-            if(viewModel.OrderHeader.Name == null && viewModel.OrderHeader.PhoneNumber == null)
+            if (viewModel.OrderHeader.Name == null && viewModel.OrderHeader.PhoneNumber == null)
             {
                 ViewBag.Message = "Please Provide Your Name And Phone Number";
                 return View(viewModel);
@@ -212,10 +215,10 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                 ViewBag.Message = "Please Provide Your Phone Number";
                 return View(viewModel);
             }
-            
+
 
             viewModel.OrderHeader.PhoneNumber = new string(viewModel.OrderHeader.PhoneNumber.Where(c => char.IsDigit(c)).ToArray());
-            
+
             if (viewModel.OrderHeader.PhoneNumber.Length != 10)
             {
                 ViewBag.Message = "Invalid Phone Number. Please Insert Your Phone Number As Either (916)123-4567 Or 9161234567";
@@ -235,7 +238,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             //_db.Add(OrderHeader);
             //_db.SaveChanges();
 
-            foreach(var cart in ShoppingCartList)
+            foreach (var cart in ShoppingCartList)
             {
                 OrderDetail = new OrderDetails()
                 {
@@ -250,9 +253,79 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                 _db.SaveChanges();
             }
 
-            dbSet.RemoveRange(viewModel.ListCart);
+            //Stripe settings
+            var domain = "https://localhost:44340/";
+            var options = new SessionCreateOptions
+            {
+                LineItems = new List<SessionLineItemOptions>(),
+                Mode = "payment",
+                SuccessUrl = domain+$"customer/cart/OrderConfirmation?id={viewModel.OrderHeader.Id}",
+                CancelUrl = domain+$"customer/cart/index",
+            };
+
+            foreach (var item in viewModel.ListCart)
+            {
+
+                var sessionLineItem = new SessionLineItemOptions
+                {
+                    PriceData = new SessionLineItemPriceDataOptions
+                    {
+                        UnitAmount = (long)(item.Item.price * 100),//20.00 -> 2000
+                        Currency = "usd",
+                        ProductData = new SessionLineItemPriceDataProductDataOptions
+                        {
+                            Name = item.Item.name
+                        },
+
+                    },
+                    Quantity = item.quantity,
+                };
+                options.LineItems.Add(sessionLineItem);
+
+            }
+
+            var service = new SessionService();
+            Session session = service.Create(options);
+            viewModel.OrderHeader.SessionId = session.Id;
+            viewModel.OrderHeader.PaymentIntentId = session.PaymentIntentId;
             _db.SaveChanges();
-            return RedirectToAction("Landing","Home");
+            Response.Headers.Add("Location", session.Url);
+            return new StatusCodeResult(303);
+
+
+        }
+
+        public IActionResult OrderConfirmation(int id)
+        {
+            IQueryable<OrderHeader> query = dbSetOrderHeader;
+            query = query.Where(u => u.Id == id);
+            OrderHeader orderHeader = query.FirstOrDefault();
+            var service = new SessionService();
+            Session session = service.Get(orderHeader.SessionId);
+            if(session.PaymentStatus.ToLower() == "paid")
+            {
+                orderHeader.OrderStatus = SD.StatusApproved;
+                orderHeader.PaymentStatus = SD.PaymentStatusApproved;
+                _db.SaveChanges();
+            }
+            var cookie = Request.Cookies["firstRequest"];
+            int currentShoppingCartNumber = int.Parse(cookie);
+            var includedProperties = "Item";
+            IQueryable<ShoppingCart> queryShoppingCart = dbSet;
+            queryShoppingCart = queryShoppingCart.Where(u => u.shoppingCartID == currentShoppingCartNumber);
+
+            foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includedProperty);
+            }
+            IEnumerable<ShoppingCart> ShoppingCartList = queryShoppingCart.ToList();
+
+            List<ShoppingCart> shoppingCarts = ShoppingCartList.ToList();
+            dbSet.RemoveRange(shoppingCarts);
+            _db.SaveChanges();
+            return View(id);
+
+
         }
 
         public IActionResult Plus(int cartId)
