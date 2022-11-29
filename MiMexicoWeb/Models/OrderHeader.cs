@@ -9,9 +9,9 @@ namespace MiMexicoWeb.Models
 
 		public int OrderHeaderId { get; set; }
 
-		public DateTime OrderDate { get; set; }
+        //public DateTime OrderDate { get; set; }
 
-		public double OrderTotal { get; set; }
+        public double OrderTotal { get; set; }
 
 		public string? OrderStatus { get; set; }
 
@@ -36,5 +36,7 @@ namespace MiMexicoWeb.Models
 
 
 
-	}
+
+
+    }
 }

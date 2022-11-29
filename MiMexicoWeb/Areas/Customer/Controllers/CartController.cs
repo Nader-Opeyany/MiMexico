@@ -183,13 +183,18 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             
             viewModel.ListCart = ShoppingCartList;
 
-            
-             //START HERE
+
+            //START HERE
+
+            viewModel.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
+            viewModel.OrderHeader.OrderStatus = SD.StatusPending;
+            //viewModel.OrderHeader.OrderDate = DateTime.Now;
+            viewModel.OrderHeader.OrderHeaderId = currentShoppingCartNumber;
 
             foreach(var item in ShoppingCartList)
             {
                 item.Price = GetPriceBaseonQuantity(item.Price, item.quantity);
-                orderTotal += (item.Item.price * item.quantity);
+                viewModel.OrderHeader.OrderTotal += (item.Item.price * item.quantity);
             }
 
             if(viewModel.OrderHeader.Name == null && viewModel.OrderHeader.PhoneNumber == null)
@@ -217,21 +222,24 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                 return View(viewModel);
             }
 
-            OrderHeader = new OrderHeader()
-            {
-                OrderHeaderId = currentShoppingCartNumber,
-                Name = viewModel.OrderHeader.Name,
-                PhoneNumber = viewModel.OrderHeader.PhoneNumber,
-                OrderTotal = orderTotal
-            };
-            _db.Add(OrderHeader);
+            _db.OrderHeaders.Add(viewModel.OrderHeader);
             _db.SaveChanges();
+
+            //OrderHeader = new OrderHeader()
+            //{
+            //    OrderHeaderId = currentShoppingCartNumber,
+            //    Name = viewModel.OrderHeader.Name,
+            //    PhoneNumber = viewModel.OrderHeader.PhoneNumber,
+            //    OrderTotal = orderTotal
+            //};
+            //_db.Add(OrderHeader);
+            //_db.SaveChanges();
 
             foreach(var cart in ShoppingCartList)
             {
                 OrderDetail = new OrderDetails()
                 {
-                    OrderId = OrderHeader.Id,
+                    OrderId = viewModel.OrderHeader.Id,
                     itemId = cart.Item.id,
                     item = cart.Item,
                     Count = cart.quantity,
@@ -242,7 +250,9 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                 _db.SaveChanges();
             }
 
-            return View(viewModel);
+            dbSet.RemoveRange(viewModel.ListCart);
+            _db.SaveChanges();
+            return RedirectToAction("Landing","Home");
         }
 
         public IActionResult Plus(int cartId)
