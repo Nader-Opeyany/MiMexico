@@ -8,6 +8,7 @@ using System.Drawing.Text;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 
+
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
     
@@ -22,6 +23,8 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
         internal DbSet<OrderHeader> dbSetOrderHeader;
         internal DbSet<OrderDetails> dbSetOrderDetails;
 
+        [BindProperty]
+        public ShoppingCartVM ShoppingCartViewModel { get; set; }
 
         public CartController(ApplicationDBContext db)
         {
@@ -161,6 +164,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             return View(ShoppingCartVM);
         }
         [HttpPost]
+        [ActionName("Summary")]
         [ValidateAntiForgeryToken]
         public IActionResult Summary(ShoppingCartVM viewModel)
         {
@@ -178,6 +182,9 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             IEnumerable<ShoppingCart> ShoppingCartList = query.ToList();
             
             viewModel.ListCart = ShoppingCartList;
+
+            
+             //START HERE
 
             foreach(var item in ShoppingCartList)
             {
