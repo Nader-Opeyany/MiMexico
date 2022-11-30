@@ -196,7 +196,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
             viewModel.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
             viewModel.OrderHeader.OrderStatus = SD.StatusPending;
-            //viewModel.OrderHeader.OrderDate = DateTime.Now;
+            viewModel.OrderHeader.PaymentDate = DateTime.Now;
             viewModel.OrderHeader.OrderHeaderId = currentShoppingCartNumber;
 
             foreach (var item in ShoppingCartList)
