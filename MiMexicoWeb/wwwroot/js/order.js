@@ -1,41 +1,48 @@
 ﻿var dataTable;
 
+//$(document).ready(function () {
+//    var url = window.location.search;
+//    if (url.includes("inprocess")) {
+//        loadDataTable("inprocess");
+//    }
+//    else {
+//        if (url.includes("completed")) {
+//            loadDataTable("completed");
+//        }
+//        else {
+//            loadDataTable("all");
+//        }
+//    }
+//});
+
 $(document).ready(function () {
     loadDataTable();
 });
 
-function loadDataTable() {
+function loadDataTable(id) {
     dataTable = $('#tblData').DataTable({
         "ajax": {
-            "url":"/Admin/Item/GetAll"
+            "url":"/Admin/Order/GetAll"
         },
         "columns": [
             {
-                "data": "name", "width": "15%",
+                "data": "orderId", "width": "15%",
+                "title": "ID"
+            },
+            {
+                "data": "item.name", "width": "15%",
                 "title": "Name"
-
             },
             {
-                "data": "description", "width": "15%",
-                "title": "Description"
-            },
-            {
-                "data": "price", "width": "15%",
-                "title": "Price"
-            },
-            {
-                "data": "meat.name", "width": "15%",
-                "title": "Meat"
+                "data": "count", "width": "15%",
+                "title": "Count"
             },
             {
                 "data" : "id",
                 "render": function (data) {
                     return `
-                        <div class="w-75 btn-group" role="group">
-                        <a href="/Admin/Item/Create?id=${data}"
-                        class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>
-                        <a onClick=Delete('/Admin/Item/Delete/${data}')
-                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Delete</a>
+                        <a onClick=Delete('/Admin/Order/Delete/${data}')
+                        class="btn btn-danger mx-2"> <i class="bi bi-trash-fill"></i> Remove</a>
                         </div>
                         `
                 },
@@ -48,12 +55,12 @@ function loadDataTable() {
 function Delete(url) {
     Swal.fire({
         title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        text: "Order Complete?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Yes, remove it!'
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({

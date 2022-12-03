@@ -1,6 +1,7 @@
 ﻿@model MiMexicoWeb.Models.ViewModel.ItemViewModel
 
 <form method="post" asp-action="Create" enctype="multipart/form-data">
+    <input asp-for="@Model.Item.id" type="hidden" />
     <div calss="border p-3 mt-4">
         <div class="row pb-2">
             <h2 class="text-primary">@(Model.Item.id!=0?"Update" : "Create")</h2>
