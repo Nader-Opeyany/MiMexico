@@ -37,6 +37,13 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
+
+            //OrderViewModel orderViewModel = new OrderViewModel()
+            //{
+            //    OrderDetails = new List<OrderDetails>(),
+            //    OrderHeader = new OrderHeader()
+            //};
+
             string includedProperties = "item";
             //IEnumerable<OrderDetails> orderDetails;
             IQueryable<OrderDetails> query = dbSetDetails;
