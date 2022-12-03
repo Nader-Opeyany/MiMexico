@@ -180,6 +180,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             int currentShoppingCartNumber = int.Parse(cookie);
             double orderTotal = 0;
             IQueryable<ShoppingCart> query = dbSet;
+            IQueryable<Meat> meatQuery = dbSetMeat;
             var includedProperties = "Item";
             query = query.Where(u => u.shoppingCartID == currentShoppingCartNumber);
 
@@ -245,6 +246,18 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
             foreach (var cart in ShoppingCartList)
             {
+                meatQuery = dbSetMeat;
+                Meat tempMeat = new Meat()
+                {
+                    name = "No Meat"
+                };
+                if (cart.Item.Beverage == false)
+                {
+                    meatQuery = meatQuery.Where(x => x.id == cart.meatId);
+                    tempMeat = meatQuery.First();
+                }
+
+
                 OrderDetail = new OrderDetails()
                 {
                     OrderId = viewModel.OrderHeader.Id,
@@ -252,7 +265,8 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                     item = cart.Item,
                     Count = cart.quantity,
                     Price = GetPriceBaseonQuantity(cart.Item.price, cart.quantity),
-                    meatId = cart.meatId
+                    meatId = cart.meatId,
+                    MeatName = tempMeat.name
                 };
                 _db.Add(OrderDetail);
                 _db.SaveChanges();

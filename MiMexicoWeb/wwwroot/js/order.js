@@ -38,6 +38,10 @@ function loadDataTable(id) {
                 "title": "Count"
             },
             {
+                "data": "meatName", "width": "15%",
+                "title": "Meat"
+            },
+            {
                 "data" : "id",
                 "render": function (data) {
                     return `
