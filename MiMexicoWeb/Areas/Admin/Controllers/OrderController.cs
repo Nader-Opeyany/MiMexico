@@ -4,6 +4,14 @@ using Microsoft.Extensions.Hosting;
 using MiMexicoWeb.Data;
 using MiMexicoWeb.Models;
 using System.Diagnostics;
+//SMS Imports
+using System;
+using System.Collections.Generic;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 
 namespace MiMexicoWeb.Areas.Admin.Controllers
 {
@@ -13,12 +21,15 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
         private readonly ApplicationDBContext _db;
         private readonly DbSet<OrderHeader> dbSet;
         private readonly DbSet<OrderDetails> dbSetDetails;
+        private IConfiguration _configuration;
 
-        public OrderController(ApplicationDBContext db)
+
+        public OrderController(ApplicationDBContext db, IConfiguration iconfig)
         {
             _db = db;
             this.dbSet = _db.Set<OrderHeader>();
             this.dbSetDetails = _db.Set<OrderDetails>();
+            _configuration = iconfig;
         }
 
         public IActionResult Index()
@@ -99,6 +110,43 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
             //}
 
             //return Json(new { data = items });
+        }
+
+        //Send SMS Twilio SMS
+        public IActionResult SendSMS(int? id)
+        {
+            string includedProperties = "item";
+            IEnumerable<OrderDetails> orderDetails;
+            IQueryable<OrderDetails> query = dbSetDetails;
+            var items = query.Where(u => u.Id != id);
+
+            var obj = _db.OrderDetails.FirstOrDefault(u => u.Id == id);
+                if (obj == null)
+                {
+                    return Json(new { success = false, message = "Error while deleting" });
+                }
+
+            IQueryable<OrderHeader> orderHeader = dbSet;
+            
+            orderHeader = orderHeader.Where(u => u.Id == obj.OrderId);
+            OrderHeader user = orderHeader.FirstOrDefault();
+
+            //Twilio SMS
+            TwilioSettings t = new TwilioSettings();
+            t.AccountSID = _configuration.GetValue<string>("Twilio:AccountSID");
+            t.AuthToken = _configuration.GetValue<string>("Twilio:AuthToken");
+            t.PhoneNumber = _configuration.GetValue<string>("Twilio:PhoneNumber");
+
+
+            TwilioClient.Init(t.AccountSID, t.AuthToken);
+
+            var message = MessageResource.Create(
+                body: "Hello " + user.Name + ", thank you for eating at MI Mexico! Your order will be ready soon.",
+                from: new Twilio.Types.PhoneNumber(t.PhoneNumber),
+                to: new Twilio.Types.PhoneNumber(user.PhoneNumber)
+            );
+
+            return Json(new { success = true, message = "Delete Successful" });
         }
         #endregion
     }

@@ -46,7 +46,6 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             this.dbSetOrderDetails = _db.Set<OrderDetails>();
             _configuration = iconfig;
 
-
         }
 
         public IActionResult Index()
@@ -249,22 +248,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             //    OrderTotal = orderTotal
             //};
             //_db.Add(OrderHeader);
-            //_db.SaveChanges();
-
-            
-
-            TwilioSettings t = new TwilioSettings();
-            t.AccountSID = _configuration.GetValue<string>("Twilio:AccountSID");
-            t.AuthToken = _configuration.GetValue<string>("Twilio:AuthToken");
-
-
-            TwilioClient.Init(t.AccountSID, t.AuthToken);
-
-            var message = MessageResource.Create(
-                body: "Your meal is ready!",
-                from: new Twilio.Types.PhoneNumber("+18304452606"),
-                to: new Twilio.Types.PhoneNumber(viewModel.OrderHeader.PhoneNumber)
-            );
+            //_db.SaveChanges();          
 
             //Stripe settings
             var domain = "https://localhost:7121/";
@@ -362,7 +346,23 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                     };
                     _db.Add(OrderDetail);
                     _db.SaveChanges();
+                    
                 }
+
+                //Twilio SMS
+                TwilioSettings t = new TwilioSettings();
+                t.AccountSID = _configuration.GetValue<string>("Twilio:AccountSID");
+                t.AuthToken = _configuration.GetValue<string>("Twilio:AuthToken");
+                t.PhoneNumber = _configuration.GetValue<string>("Twilio:PhoneNumber");
+
+
+                TwilioClient.Init(t.AccountSID, t.AuthToken);
+
+                var message = MessageResource.Create(
+                    body: "Hello " + orderHeader.Name + ", thank you for eating at MI Mexico! Your order will be ready soon.",
+                    from: new Twilio.Types.PhoneNumber(t.PhoneNumber),
+                    to: new Twilio.Types.PhoneNumber(orderHeader.PhoneNumber)
+                );
             }
             IQueryable<ShoppingCart> queryShoppingCart = dbSet;
             queryShoppingCart = queryShoppingCart.Where(u => u.shoppingCartID == currentShoppingCartNumber);
