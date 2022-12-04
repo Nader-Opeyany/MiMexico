@@ -53,6 +53,7 @@
 
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="5.2.0" />
+    <PackageReference Include="DotNetEnv" Version="2.3.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.10">
       <PrivateAssets>all</PrivateAssets>

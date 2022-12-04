@@ -10,7 +10,14 @@ using Stripe.Checkout;
 using System.Drawing.Text;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
-
+//SMS Imports
+using System;
+using System.Collections.Generic;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
 
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
@@ -25,18 +32,23 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
         internal DbSet<Meat> dbSetMeat;
         internal DbSet<OrderHeader> dbSetOrderHeader;
         internal DbSet<OrderDetails> dbSetOrderDetails;
+        private IConfiguration _configuration;
 
         [BindProperty]
         public ShoppingCartVM ShoppingCartViewModel { get; set; }
 
-        public CartController(ApplicationDBContext db)
+        public CartController(ApplicationDBContext db, IConfiguration iconfig)
         {
             _db = db;
             this.dbSet = _db.Set<ShoppingCart>();
             this.dbSetMeat = _db.Set<Meat>();
             this.dbSetOrderHeader = _db.Set<OrderHeader>();
             this.dbSetOrderDetails = _db.Set<OrderDetails>();
+            _configuration = iconfig;
+
+
         }
+
         public IActionResult Index()
         {
 
@@ -267,8 +279,21 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                 _db.SaveChanges();
             }
 
+            TwilioSettings t = new TwilioSettings();
+            t.AccountSID = _configuration.GetValue<string>("Twilio:AccountSID");
+            t.AuthToken = _configuration.GetValue<string>("Twilio:AuthToken");
+
+
+            TwilioClient.Init(t.AccountSID, t.AuthToken);
+
+            var message = MessageResource.Create(
+                body: "Your meal is ready!",
+                from: new Twilio.Types.PhoneNumber("+18304452606"),
+                to: new Twilio.Types.PhoneNumber(viewModel.OrderHeader.PhoneNumber)
+            );
+
             //Stripe settings
-            var domain = "https://localhost:44340/";
+            var domain = "https://localhost:7121/";
             var options = new SessionCreateOptions
             {
                 LineItems = new List<SessionLineItemOptions>(),
