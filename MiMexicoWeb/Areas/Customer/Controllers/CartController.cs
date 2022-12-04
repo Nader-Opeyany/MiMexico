@@ -251,33 +251,7 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             //_db.Add(OrderHeader);
             //_db.SaveChanges();
 
-            foreach (var cart in ShoppingCartList)
-            {
-                meatQuery = dbSetMeat;
-                Meat tempMeat = new Meat()
-                {
-                    name = "No Meat"
-                };
-                if (cart.Item.Beverage == false)
-                {
-                    meatQuery = meatQuery.Where(x => x.id == cart.meatId);
-                    tempMeat = meatQuery.First();
-                }
-
-
-                OrderDetail = new OrderDetails()
-                {
-                    OrderId = viewModel.OrderHeader.Id,
-                    itemId = cart.Item.id,
-                    item = cart.Item,
-                    Count = cart.quantity,
-                    Price = GetPriceBaseonQuantity(cart.Item.price, cart.quantity),
-                    meatId = cart.meatId,
-                    MeatName = tempMeat.name
-                };
-                _db.Add(OrderDetail);
-                _db.SaveChanges();
-            }
+            
 
             TwilioSettings t = new TwilioSettings();
             t.AccountSID = _configuration.GetValue<string>("Twilio:AccountSID");
@@ -341,15 +315,55 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
             OrderHeader orderHeader = query.FirstOrDefault();
             var service = new SessionService();
             Session session = service.Get(orderHeader.SessionId);
-            if(session.PaymentStatus.ToLower() == "paid")
+
+            IQueryable<Meat> meatQuery = dbSetMeat;
+            IQueryable<ShoppingCart> orderDetailCarts = dbSet;
+
+            var cookie = Request.Cookies["firstRequest"];
+            int currentShoppingCartNumber = int.Parse(cookie);
+            var includedProperties = "Item";
+            orderDetailCarts = orderDetailCarts.Where(u => u.shoppingCartID == currentShoppingCartNumber);
+
+            foreach (var includedProperty in includedProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                orderDetailCarts = orderDetailCarts.Include(includedProperty);
+            }
+            IEnumerable<ShoppingCart> OrderDetailCartList = orderDetailCarts.ToList();
+
+            if (session.PaymentStatus.ToLower() == "paid")
             {
                 orderHeader.OrderStatus = SD.StatusApproved;
                 orderHeader.PaymentStatus = SD.PaymentStatusApproved;
                 _db.SaveChanges();
+
+                foreach (var cart in OrderDetailCartList)
+                {
+                    meatQuery = dbSetMeat;
+                    Meat tempMeat = new Meat()
+                    {
+                        name = "No Meat"
+                    };
+                    if (cart.Item.Beverage == false)
+                    {
+                        meatQuery = meatQuery.Where(x => x.id == cart.meatId);
+                        tempMeat = meatQuery.First();
+                    }
+
+
+                    OrderDetail = new OrderDetails()
+                    {
+                        OrderId = orderHeader.Id,
+                        itemId = cart.Item.id,
+                        item = cart.Item,
+                        Count = cart.quantity,
+                        Price = GetPriceBaseonQuantity(cart.Item.price, cart.quantity),
+                        meatId = cart.meatId,
+                        MeatName = tempMeat.name
+                    };
+                    _db.Add(OrderDetail);
+                    _db.SaveChanges();
+                }
             }
-            var cookie = Request.Cookies["firstRequest"];
-            int currentShoppingCartNumber = int.Parse(cookie);
-            var includedProperties = "Item";
             IQueryable<ShoppingCart> queryShoppingCart = dbSet;
             queryShoppingCart = queryShoppingCart.Where(u => u.shoppingCartID == currentShoppingCartNumber);
 
