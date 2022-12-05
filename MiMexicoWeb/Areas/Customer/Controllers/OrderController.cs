@@ -16,6 +16,7 @@ using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class OrderController : Controller
     {
 

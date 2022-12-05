@@ -21,7 +21,7 @@ using System.Configuration;
 
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
-    
+    [Area("Customer")]
     public class CartController : Controller
     {
         private readonly ApplicationDBContext _db;

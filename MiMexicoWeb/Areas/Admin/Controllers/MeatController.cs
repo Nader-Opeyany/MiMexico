@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiMexicoWeb.Data;
 using MiMexicoWeb.Models;
 
 namespace MiMexicoWeb.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    [Area("Admin")]
     public class MeatController : Controller
     {
         private readonly ILogger<MeatController> _logger;

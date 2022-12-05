@@ -12,10 +12,12 @@ using Twilio.Rest.Api.V2010.Account;
 using Twilio.Types;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MiMexicoWeb.Areas.Admin.Controllers
 {
-
+    [Authorize(Roles = "Admin")]
+    [Area("Admin")]
     public class OrderController : Controller { 
     
         private readonly ApplicationDBContext _db;
@@ -34,7 +36,7 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
 
         public IActionResult Index()
         {
-            return View();
+                return View();
         }
 
         //GET
@@ -43,6 +45,8 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
             var objProductList = _db.SimpleOrderTable.ToList();
             return View();
         }
+
+
 
         #region API CALLS
         [HttpGet]

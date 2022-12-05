@@ -5,6 +5,7 @@ using MiMexicoWeb.Data;
 using MiMexicoWeb.Models;
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class ShoppingCartController : Controller
     {
         private readonly ILogger<ShoppingCartController> _logger;
