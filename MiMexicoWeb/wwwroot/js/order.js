@@ -42,6 +42,10 @@ function loadDataTable(id) {
                 "title": "Meat"
             },
             {
+                "data": "customerName", "width": "15%",
+                "title": "Customer Name"
+            },
+            {
                 "data" : "id",
                 "render": function (data) {
                     return `

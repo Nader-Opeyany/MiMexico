@@ -342,7 +342,8 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
                         Count = cart.quantity,
                         Price = GetPriceBaseonQuantity(cart.Item.price, cart.quantity),
                         meatId = cart.meatId,
-                        MeatName = tempMeat.name
+                        MeatName = tempMeat.name,
+                        CustomerName = orderHeader.Name
                     };
                     _db.Add(OrderDetail);
                     _db.SaveChanges();

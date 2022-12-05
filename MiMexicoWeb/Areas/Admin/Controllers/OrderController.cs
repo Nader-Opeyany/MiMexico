@@ -141,7 +141,7 @@ namespace MiMexicoWeb.Areas.Admin.Controllers
             TwilioClient.Init(t.AccountSID, t.AuthToken);
 
             var message = MessageResource.Create(
-                body: "Hello " + user.Name + ", thank you for eating at MI Mexico! Your order will be ready soon.",
+                body: "Hello " + user.Name + ", your order is now ready for pickup.",
                 from: new Twilio.Types.PhoneNumber(t.PhoneNumber),
                 to: new Twilio.Types.PhoneNumber(user.PhoneNumber)
             );
