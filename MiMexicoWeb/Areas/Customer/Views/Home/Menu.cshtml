@@ -13,39 +13,43 @@
 @*Sub Navbar*@
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu" id="btnFood">Food</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu" id="btnDrinks">Drinks</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu" id="btnChoiceOfMeats">Choice of Meats</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i></a>
-                        </li>
-                    </ul>
-                </div>
+        <div class="container">
+            <div class="d-flex flex-row flex-wrap justify-content-center">
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 my-2" style="border-radius: 20px; width:400px;">
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1 justify-content-center">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu" id="btnChoiceOfMeats">Choice of Meats</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu" id="btnFood">Food</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Menu" id="btnDrinks">Drinks</a>
+                                </li>
+                                @*<li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index"><i class="fa-solid fa-cart-shopping"></i></a>
+                                </li>*@
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
             </div>
-        </nav>
+        </div>
     </header>
 
 @*Alternate Menu Section*@
-    <div class="container py-5">
+    <div class="container">
 
         @*Choice of Meats section*@
-        <div class="jumbotron">
-            <h3 class="display-4 text-white" style="text-align: center;">Choice of meats</h3>
-            <ul class="list-group list- group-flush py-5">
+        <div class="container my-5">
+            <h3 class="display-4 text-white bg-dark py-3" style="text-align: center; font-weight:bold; border-radius: 20px;">Choice of Meats</h3>
+            <ul class="list-group list- group-flush py-2">
                 <li class="list-group-item">Asada</li>
                 <li class="list-group-item">Alpastor</li>
                 <li class="list-group-item">Birria</li>
@@ -58,55 +62,54 @@
         </div>
 
         @*Food Section*@
-        <div class="jumbotron">
-            <h3 class="display-4 text-white" style="text-align: center;">Comida / Food</h3>
+        <div class="container my-5">
+            <h3 class="display-4 text-white bg-dark py-3" style="text-align: center; font-weight:bold; border-radius: 20px;">Comida / Food</h3>
       
-            <div class="row">
-                <div class="col-md" 
-                    style="
-                        background-color: white;
-                        border-radius: 20px;">
-                    <ul class="list-group list-group-flush py-5">
-                <li class="list-group-item">
-                    <h4>Tacos</h4>
-                    <p>A soft corn tortilla with choice of meat, onion, and cilantro.</p>
-                </li>
-                <li class="list-group-item">
-                    <h4>Torta</h4>
-                    <p>Two slice of birote served with choice of meat, lettuce, onion,
-                        tomato, and sour cream inside</p>
-                </li>
-                <li class="list-group-item">
-                    <h4>Burrito</h4>
-                    <p>Choice of meat, rice, beans, lettuce, tomato, onion, guacamole,
-                        cheese, and sour cream wrapped in a flour tortilla</p>
+            <div class="row my-3">
+                <div class="col-md" >
+                    <ul class="list-group list-group-flush py-4"  style="background-color: white; border-radius: 20px; height: 340px;">
+                        <li class="list-group-item">
+                            <h4>Tacos</h4>
+                            <p>A soft corn tortilla with choice of meat, onion, and cilantro.</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h4>Torta</h4>
+                            <p>Two slice of birote served with choice of meat, lettuce, onion,
+                                tomato, and sour cream inside</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h4>Burrito</h4>
+                            <p>Choice of meat, rice, beans, lettuce, tomato, onion, guacamole,
+                                cheese, and sour cream wrapped in a flour tortilla</p>
                         </li>
                     </ul>
                 </div>
                 <div class="col-md">
-                    <img id="itemImg" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfj5we9-4211cef0-126b-48b5-a8c8-cc9252a3435b.jpg/v1/fill/w_1192,h_670,q_70,strp/tacos_by_wizard_emeraldheart_dfj5we9-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmo1d2U5LTQyMTFjZWYwLTEyNmItNDhiNS1hOGM4LWNjOTI1MmEzNDM1Yi5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.wgaz8kVmbOkYIItyMTeKFtSgKmtkKjxeCnjHFPxxCj0">
+                    <img id="itemImg" style= "height: 100%; width: 100%; border-radius: 20px;"
+                        src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfj5we9-4211cef0-126b-48b5-a8c8-cc9252a3435b.jpg/v1/fill/w_1192,h_670,q_70,strp/tacos_by_wizard_emeraldheart_dfj5we9-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmo1d2U5LTQyMTFjZWYwLTEyNmItNDhiNS1hOGM4LWNjOTI1MmEzNDM1Yi5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.wgaz8kVmbOkYIItyMTeKFtSgKmtkKjxeCnjHFPxxCj0">
                 </div>
             </div>
-            <div class="row">
+            <div class="row my-3">
                 <div class="col-md">
-                    <img id="itemImg" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfj5wec-f2717585-7d77-4862-8f7a-cb9e42c27b0e.jpg/v1/fill/w_1192,h_670,q_70,strp/quesadillas_by_wizard_emeraldheart_dfj5wec-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmo1d2VjLWYyNzE3NTg1LTdkNzctNDg2Mi04ZjdhLWNiOWU0MmMyN2IwZS5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.so4d3sMIQv6TgJ-yE-qFiipkry1o9k_HISBJCxzINac">
+                    <img id="itemImg" style= "height: 100%; width: 100%; border-radius: 20px;"
+                        src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfj5wec-f2717585-7d77-4862-8f7a-cb9e42c27b0e.jpg/v1/fill/w_1192,h_670,q_70,strp/quesadillas_by_wizard_emeraldheart_dfj5wec-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmo1d2VjLWYyNzE3NTg1LTdkNzctNDg2Mi04ZjdhLWNiOWU0MmMyN2IwZS5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.so4d3sMIQv6TgJ-yE-qFiipkry1o9k_HISBJCxzINac">
                 </div>
                 <div class="col-md"
                      style="
                         background-color: white;
                         border-radius: 20px;">
-                    <ul class="list-group list-group-flush py-5">
-                <li class="list-group-item">
-                    <h4>Quesadilla</h4>
-                    <p>Grilled flour tortilla with a choice of meat and a cheesy filling.</p>
-                </li>
-                <li class="list-group-item">
-                    <h4>Ceviche</h4>
-                    <p>Fresh raw shrimp, tomato, lemon, and onion.</p>
-                </li>
-                <li class="list-group-item">
-                    <h4>Tostada de ceviche</h4>
-                    <p>Hard Corn tortilla with ceviche.</p>
+                    <ul class="list-group list-group-flush py-4" style="background-color: white; border-radius: 20px; height: 340px;">
+                        <li class="list-group-item">
+                            <h4>Quesadilla</h4>
+                            <p>Grilled flour tortilla with a choice of meat and a cheesy filling.</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h4>Ceviche</h4>
+                            <p>Fresh raw shrimp, tomato, lemon, and onion.</p>
+                        </li>
+                        <li class="list-group-item">
+                            <h4>Tostada de ceviche</h4>
+                            <p>Hard Corn tortilla with ceviche.</p>
                         </li>
                     </ul>
                 </div>
@@ -205,7 +208,7 @@
     </div>
         *@
     @*Menu Section*@
-    <div class="container py-5">
+    <div class="container my-5">
         @*Food Section*@
 @*        <div class="jumbotron">
             <h3 class="display-4 text-white">Comida / Food</h3>
@@ -240,49 +243,57 @@
         </div>*@
 
         @*Drinks section*@
-        <div class="jumbotron">
-            <h3 class="display-4 text-white" style="text-align: center;">Bebida / Drink</h3>
-            <ul class="list-group list-group-flush py-5">
-                <li class="list-group-item">
-                    <h4>Agua / Water</h4>
-                    <div class="row">
-                    <div class="col-sm-4 bg-white border-end">
-                        <p>Tap water.</p>
+        <div class="container my-2">
+            <h3 class="display-4 text-white bg-dark py-3" style="text-align: center; font-weight:bold; border-radius: 20px;">Bebida / Drink</h3>
+            @*<ul class="list-group list-group-flush py-2">*@
+                @*<li class="list-group-item">*@
+                    <div class="container">
+                    <div class="d-flex flex-row flex-wrap justify-content-center my-2">
+                        <div class="col-sm-4 bg-white p-5 m-2" style=" text-align: center; border-radius: 20px;">
+                            <h4>Agua / Water</h4>
+                            <p>Tap water.</p>
+                        </div>
+                        <div class="col-md-4 m-2">
+                            <img s id="itemImg"
+                                style= "height: 100%; width: 100%; border-radius: 20px;"
+                                src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfj5wef-fac3071e-6c21-4124-989c-4eae464eb35f.jpg/v1/fill/w_1192,h_670,q_70,strp/water_by_wizard_emeraldheart_dfj5wef-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmo1d2VmLWZhYzMwNzFlLTZjMjEtNDEyNC05ODljLTRlYWU0NjRlYjM1Zi5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.5zgdWkdkcisgf1yY7uQkal3zjongY-y56vD_wVJwIIM"> @*ADD DIFFERNET IMAGE FOR DRINK MENU HERE!!!!*@
+                        </div> 
                     </div>
 
-                    <div class="col-md-4 align-right ">
-                                <img s id="itemImg" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfj5wef-fac3071e-6c21-4124-989c-4eae464eb35f.jpg/v1/fill/w_1192,h_670,q_70,strp/water_by_wizard_emeraldheart_dfj5wef-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmo1d2VmLWZhYzMwNzFlLTZjMjEtNDEyNC05ODljLTRlYWU0NjRlYjM1Zi5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.5zgdWkdkcisgf1yY7uQkal3zjongY-y56vD_wVJwIIM"> @*ADD DIFFERNET IMAGE FOR DRINK MENU HERE!!!!*@
-                    </div> 
-                    </div>
+                @*</li>*@
 
-                </li>
-
-                <li class="list-group-item">
-                    <h4>Horchata</h4>
-                    <div class="row">
-                        <div class="col-sm-4 bg-white border-end">
+                @*<li class="list-group-item">*@
+                    
+                    <div class="d-flex flex-row flex-wrap justify-content-center my-2">
+                        <div class="col-sm-4 bg-white p-5 m-2" style="text-align: center; border-radius: 20px;">
+                            <h4>Horchata</h4>
                             <p>Sweetened rice water.</p>
                         </div>
-                        <div class="col-md-4 align-right ">
-                                <img s id="itemImg" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfj5weg-8b8b6ffd-76fd-45b9-99c0-d6c3f0245d6c.jpg/v1/fill/w_1192,h_670,q_70,strp/horchata_by_wizard_emeraldheart_dfj5weg-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmo1d2VnLThiOGI2ZmZkLTc2ZmQtNDViOS05OWMwLWQ2YzNmMDI0NWQ2Yy5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.Fcvf0urVigszcEgsh_pOe-Ze77IR_j7tFmxXyCC2yMA">@*ADD DIFFERNET IMAGE FOR DRINK MENU HERE!!!!*@
+                        <div class="col-md-4 m-2">
+                            <img s id="itemImg" 
+                                style= "height: 100%; width: 100%; border-radius: 20px;"
+                                src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfj5weg-8b8b6ffd-76fd-45b9-99c0-d6c3f0245d6c.jpg/v1/fill/w_1192,h_670,q_70,strp/horchata_by_wizard_emeraldheart_dfj5weg-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmo1d2VnLThiOGI2ZmZkLTc2ZmQtNDViOS05OWMwLWQ2YzNmMDI0NWQ2Yy5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.Fcvf0urVigszcEgsh_pOe-Ze77IR_j7tFmxXyCC2yMA">@*ADD DIFFERNET IMAGE FOR DRINK MENU HERE!!!!*@
                         </div>
 
                     </div>
-                </li>
-                <li class="list-group-item">
-                    <h4>Jamaica</h4>
-                    <div class="row">
-                        <div class="col-sm-4 bg-white border-end">
+                @*</li>*@
+                @*<li class="list-group-item">*@
+                   
+                    <div class="d-flex flex-row flex-wrap justify-content-center my-2">
+                        <div class="col-sm-4 bg-white p-5 m-2" style="text-align:center; border-radius: 20px;">
+                             <h4>Jamaica</h4>
                             <p>Cold hibiscus tea.</p>
                         </div>
-                        <div class="col-md-4 align-right ">
-                                <img s id="itemImg" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfj5wei-f3560846-4b36-433a-a1a9-4023b791bb7b.jpg/v1/fill/w_1192,h_670,q_70,strp/jamaica_by_wizard_emeraldheart_dfj5wei-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmo1d2VpLWYzNTYwODQ2LTRiMzYtNDMzYS1hMWE5LTQwMjNiNzkxYmI3Yi5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.ICDor_9SYqjrJHgIB5HZbEtO1wstLY1k2y7EIOgUNoY">@*ADD DIFFERNET IMAGE FOR DRINK MENU HERE!!!!*@
+                        <div class="col-md-4 m-2">
+                            <img s id="itemImg" 
+                                style= "height: 100%; width: 100%; border-radius: 20px;"
+                                src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ed2a6045-dd0b-4a04-9955-ced579efcfea/dfj5wei-f3560846-4b36-433a-a1a9-4023b791bb7b.jpg/v1/fill/w_1192,h_670,q_70,strp/jamaica_by_wizard_emeraldheart_dfj5wei-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NzIwIiwicGF0aCI6IlwvZlwvZWQyYTYwNDUtZGQwYi00YTA0LTk5NTUtY2VkNTc5ZWZjZmVhXC9kZmo1d2VpLWYzNTYwODQ2LTRiMzYtNDMzYS1hMWE5LTQwMjNiNzkxYmI3Yi5qcGciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.ICDor_9SYqjrJHgIB5HZbEtO1wstLY1k2y7EIOgUNoY">@*ADD DIFFERNET IMAGE FOR DRINK MENU HERE!!!!*@
                         </div>
 
                     </div>
-
-                </li>
-            </ul>
+                    </div>
+                @*</li>*@
+            @*</ul>*@
         </div>
     </div>
 
@@ -296,13 +307,13 @@
         const btnDrinks = document.getElementById("btnDrinks");
         btnDrinks.addEventListener("click", function (e) {
             e.preventDefault();
-            window.scrollTo(0, 1600);
+            window.scrollTo(0, 1550);
         });
 
         const btnFood = document.getElementById("btnFood");
         btnFood.addEventListener("click", function (f) {
             f.preventDefault();
-            window.scrollTo(0, 650);
+            window.scrollTo(0, 680);
         });
 
         const btnChoiceOfMeats = document.getElementById("btnChoiceOfMeats");
