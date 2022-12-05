@@ -28,8 +28,6 @@
 									<span class="text-info">Order Details:</span>
 								</h4>
 							</div>
-
-							@*Customer Name*@
 							<div class="row my-1">
 								<div class="col-3">
 									<label>Name</label>
@@ -39,8 +37,6 @@
 									<span asp-validation-for="OrderHeader.Name" class="text-danger"></span>
 								</div>
 							</div>
-
-							@*Customer Phone Number*@
 							<div class="row my-1">
 								<div class="col-3">
 									<label>Phone</label>
@@ -83,8 +79,6 @@
 							@DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()*@
 						</p>
 					</div>
-
-					@*Place Order Button*@
 					<div class="col-12 col-md-4">
 						<button type="submit" value="Place Order" class="btn btn-primary form-control">Place Order</button>
 					</div>

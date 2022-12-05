@@ -14,7 +14,6 @@ using System.Diagnostics.Metrics;
 using System.Linq.Expressions;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http;
-
 namespace MiMexicoWeb.Areas.Customer.Controllers
 {
     public class OrderController : Controller
@@ -264,5 +263,6 @@ namespace MiMexicoWeb.Areas.Customer.Controllers
 
             return View(model);
         }
+
     }
 }

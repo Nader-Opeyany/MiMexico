@@ -22,5 +22,6 @@ namespace MiMexicoWeb.Models
 		public int Count { get; set; }
 		public double Price { get; set; }
 		public string MeatName { get; set; }
+		public string CustomerName { get; set; }
 	}
 }

@@ -4,6 +4,12 @@ using MiMexicoWeb.Data;
 using MiMexicoWeb.Dbintializer;
 using MiMexicoWeb.Models;
 using Stripe;
+//SMS Imports
+using System;
+using System.Collections.Generic;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +20,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlSer
 
 builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDBContext>();
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+builder.Services.Configure<TwilioSettings>(builder.Configuration.GetSection("Twilio"));
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 var app = builder.Build();
 
@@ -31,6 +38,12 @@ app.UseStaticFiles();
 app.UseRouting();
 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+
+//var accountSid = Configuration.GetValue<string>("AppSettings:Twilio:AccountSID");
+//var authToken = Configuration.GetValue<string>("AppSettings:Twilio:AuthToken");
+
+//TwilioClient.Init(accountSid, authToken);
+//var TwilioAuthToken = builder.Configuration.GetSection("Twilio:AuthToken").Get<string>();
 SeedDatabase();
 
 app.UseAuthentication();

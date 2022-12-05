@@ -42,6 +42,10 @@ function loadDataTable(id) {
                 "title": "Meat"
             },
             {
+                "data": "customerName", "width": "15%",
+                "title": "Customer Name"
+            },
+            {
                 "data" : "id",
                 "render": function (data) {
                     return `
@@ -51,7 +55,19 @@ function loadDataTable(id) {
                         `
                 },
                 "width" : "15%"
+            },
+            {
+                "data": "id",
+                "render": function (data) {
+                    return `
+                        <a onClick=SendSMS('/Admin/Order/SendSMS/${data}')
+                        class="btn mx-2 btn-Success"> Send Order Complete</a>
+                        </div>
+                        `
+                },
+                "width": "15%"
             }
+
         ]
     });
 }
@@ -65,6 +81,33 @@ function Delete(url) {
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Yes, remove it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: url,
+                type: 'DELETE',
+                success: function (data) {
+                    if (data.success) {
+                        dataTable.ajax.reload();
+                        toastr.success(data.message);
+                    }
+                    else {
+                        toastr.error(data.message);
+                    }
+                }
+            })
+        }
+    })
+}
+function SendSMS(url) {
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "Order Complete?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, send it!'
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
