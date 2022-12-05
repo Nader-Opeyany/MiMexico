@@ -6,32 +6,18 @@ Serve the needs of a family owned food truck, to help boost traffic and revenue 
 
 The client will like to have a website created for the customers and for the employees to interact with for an easier order process. Our solution will provide the customers and the employees with a simple but elegant interface to place orders amongst other features. This website will allow the client’s business to attract new customers, provide the customers/client with a more efficient ordering process, and will give their customers a memorable user experience.
 
-## Getting Started
 
-### Dependencies
-Windows 10 or latest compatabile windows, updated web browser such as Chrome, Microsoft Edge, FireFox etc. The ability to download npm's through the browser, for example a css template api known as BOOTSTRAP is loaded into the local browser when first connected. 
 
-### Installing
+## Product Screencaps
+![Prototype](https://user-images.githubusercontent.com/72956563/205565871-6a93d8a2-8301-4dd0-8b69-55a7ff5cdde2.png)
+![Prototype](https://user-images.githubusercontent.com/72956563/205565919-69e18fd7-63a7-4d46-9a31-558db589bb52.png)
+![Prototype](https://user-images.githubusercontent.com/72956563/205565947-3c886275-3e28-4b17-8911-e43e736cfb98.png)
+![Prototype](https://user-images.githubusercontent.com/72956563/205566013-119294d9-b7f9-4325-a57d-f2ff2c83e85e.png)
 
-Download the C# .NET files within a compatabile IDE and fire it up!
-
-### Executing program
-
-Open your perferred IDE, for example Visual Studio Code.
-Enure NODE.js is installed.
-Then build and run project to view a prototype of our web client!
-```
-npm i bootstrap@5.2.0-beta1
-```
-## FIGMA design
-![FIGMA](https://user-images.githubusercontent.com/72956563/168409395-42c6ae13-ee8f-44c3-9749-19e4797828d1.png)
-
-## Prototype
-![Prototype](https://user-images.githubusercontent.com/72956563/168408919-81d944db-9b93-416d-b7dc-2fbf3ddfd96a.png)
-![Prototype](https://user-images.githubusercontent.com/72956563/168408922-604e3682-78d1-4d9c-8333-b9653bc68a1b.png)
-
-## Future Sprints
-![Future](https://user-images.githubusercontent.com/72956563/168408961-8f6fb66d-0afc-4ce3-ba27-6b2256b523cb.png)
+## Testing Document
+[Testing Document](https://docs.google.com/document/d/1S9aIFWkwyDdR5nAS9TW-zonTq7j7oapUx3jXG9TU-CM/edit#)
+## User Manual
+[User Manual](https://docs.google.com/document/d/1WL_PGaS0jO3edQbrz3X91hY0xS1_LIB93JcTiMoyw64/edit#)
 
 ## Authors
 
